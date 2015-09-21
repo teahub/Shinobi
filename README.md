@@ -1,2 +1,3 @@
 # Shinobi
-Shinobi Mobile
+Aplicação desenvolvida no TEA.
+Utilizando Ionic Framework.
