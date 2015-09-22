@@ -2281,7 +2281,7 @@ audio:not([controls]) {
   height: 0; }
 
 /**
- * Hide the `template` element in IE, Safari, and Firefox < 22.
+ * Hide the `layout` element in IE, Safari, and Firefox < 22.
  */
 [hidden], template {
   display: none; }

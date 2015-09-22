@@ -1,9 +1,3 @@
-// Ionic Starter App
-
-// angular.module is a global place for creating, registering and retrieving Angular modules
-// 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
-// the 2nd parameter is an array of 'requires'
-// 'starter.controllers' is found in controllers.js
 angular.module('app', ['ionic', 'app.controllers'])
 
 .run(function($ionicPlatform) {
@@ -25,22 +19,29 @@ angular.module('app', ['ionic', 'app.controllers'])
 .config(function($stateProvider, $urlRouterProvider) {
 
       // if none of the above states are matched, use this as the fallback
-      $urlRouterProvider.otherwise('/app/resumo');
+      $urlRouterProvider.otherwise('/app/profile');
 
       $stateProvider
-
       .state('app', {
         url: '/app',
         abstract: true,
-        templateUrl: 'views/menu.html',
+        templateUrl: 'views/layout/menu.html',
         controller: 'AppCtrl'
       })
 
-      .state('app.resumo', {
-        url:'/resumo',
+      .state('app.profile', {
+        url:'/profile',
         views : {
           menuContent:{
-            templateUrl: 'views/resumo.html'
+            templateUrl: 'views/app/profile.html'
+          }
+        }
+      })
+      .state('app.config', {
+        url:'/config',
+        views : {
+          menuContent:{
+            templateUrl: 'views/app/config.html'
           }
         }
       })
@@ -48,7 +49,7 @@ angular.module('app', ['ionic', 'app.controllers'])
         url:'/teste',
         views : {
           menuContent:{
-            templateUrl: 'views/teste.html'
+            templateUrl: 'views/app/teste.html'
           }
         }
       });

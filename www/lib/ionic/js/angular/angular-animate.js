@@ -3385,7 +3385,7 @@ var $$AnimationProvider = ['$animateProvider', function($animateProvider) {
  * `ng-animate-ref` attribute we can identify that the two components are paired together and we
  * can then attach an animation, which is triggered when the view changes.
  *
- * Say for example we have the following template code:
+ * Say for example we have the following layout code:
  *
  * ```html
  * <!-- index.html -->

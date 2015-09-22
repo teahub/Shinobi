@@ -1,0 +1,17 @@
+<ion-view view-title="Configurações">
+    <ion-content>
+        <ion-list>
+            <ion-item class="item-toggle">
+                Notificações
+                <label class="toggle toggle-dark">
+                    <input type="checkbox"
+                           ng-model="config.notifications.state"
+                           ng-change="config.notifications.set()">
+                    <div class="track">
+                        <div class="handle"></div>
+                    </div>
+                </label>
+            </ion-item>
+        </ion-list>
+    </ion-content>
+</ion-view>

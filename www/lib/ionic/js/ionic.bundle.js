@@ -8853,13 +8853,13 @@ ionic.views.Slider = ionic.views.View.inherit({
  * Since data will be parsed statically during a build step, some restrictions
  * are applied with respect to how minErr instances are created and called.
  * Instances should have names of the form namespaceMinErr for a minErr created
- * using minErr('namespace') . Error codes, namespaces and template strings
+ * using minErr('namespace') . Error codes, namespaces and layout strings
  * should all be static strings, not variables or general expressions.
  *
  * @param {string} module The namespace to use for the new minErr instance.
  * @param {function} ErrorConstructor Custom error constructor to be instantiated when returning
  *   error from returned function, for cases when a particular type of error is useful.
- * @returns {function(code:string, template:string, ...templateArgs): Error} minErr instance
+ * @returns {function(code:string, layout:string, ...templateArgs): Error} minErr instance
  */
 
 function minErr(module, ErrorConstructor) {
@@ -14882,32 +14882,32 @@ function $CacheFactoryProvider() {
  * @name $templateCache
  *
  * @description
- * The first time a template is used, it is loaded in the template cache for quick retrieval. You
+ * The first time a layout is used, it is loaded in the layout cache for quick retrieval. You
  * can load templates directly into the cache in a `script` tag, or by consuming the
  * `$templateCache` service directly.
  *
  * Adding via the `script` tag:
  *
  * ```html
- *   <script type="text/ng-template" id="templateId.html">
- *     <p>This is the content of the template</p>
+ *   <script type="text/ng-layout" id="templateId.html">
+ *     <p>This is the content of the layout</p>
  *   </script>
  * ```
  *
- * **Note:** the `script` tag containing the template does not need to be included in the `head` of
+ * **Note:** the `script` tag containing the layout does not need to be included in the `head` of
  * the document, but it must be a descendent of the {@link ng.$rootElement $rootElement} (IE,
- * element with ng-app attribute), otherwise the template will be ignored.
+ * element with ng-app attribute), otherwise the layout will be ignored.
  *
  * Adding via the `$templateCache` service:
  *
  * ```js
  * var myApp = angular.module('myApp', []);
  * myApp.run(function($templateCache) {
- *   $templateCache.put('templateId.html', 'This is the content of the template');
+ *   $templateCache.put('templateId.html', 'This is the content of the layout');
  * });
  * ```
  *
- * To retrieve the template later, simply use it in your HTML:
+ * To retrieve the layout later, simply use it in your HTML:
  * ```html
  * <div ng-include=" 'templateId.html' "></div>
  * ```
@@ -14961,8 +14961,8 @@ function $TemplateCacheProvider() {
  * @kind function
  *
  * @description
- * Compiles an HTML string or DOM into a template and produces a template function, which
- * can then be used to link {@link ng.$rootScope.Scope `scope`} and the template together.
+ * Compiles an HTML string or DOM into a layout and produces a layout function, which
+ * can then be used to link {@link ng.$rootScope.Scope `scope`} and the layout together.
  *
  * The compilation is a process of walking the DOM tree and matching DOM elements to
  * {@link ng.$compileProvider#directive directives}.
@@ -14993,7 +14993,7 @@ function $TemplateCacheProvider() {
  *   myModule.directive('directiveName', function factory(injectables) {
  *     var directiveDefinitionObject = {
  *       priority: 0,
- *       template: '<div></div>', // or // function(tElement, tAttrs) { ... },
+ *       layout: '<div></div>', // or // function(tElement, tAttrs) { ... },
  *       // or
  *       // templateUrl: 'directive.html', // or // function(tElement, tAttrs) { ... },
  *       transclude: false,
@@ -15069,12 +15069,12 @@ function $TemplateCacheProvider() {
  * If set to true then the current `priority` will be the last set of directives
  * which will execute (any directives at the current priority will still execute
  * as the order of execution on same `priority` is undefined). Note that expressions
- * and other directives used in the directive's template will also be excluded from execution.
+ * and other directives used in the directive's layout will also be excluded from execution.
  *
  * #### `scope`
  * **If set to `true`,** then a new scope will be created for this directive. If multiple directives on the
  * same element request a new scope, only one new scope is created. The new scope rule does not
- * apply for the root of the template since the root of the template always gets a new scope.
+ * apply for the root of the layout since the root of the layout always gets a new scope.
  *
  * **If set to `{}` (object hash),** then a new "isolate" scope is created. The 'isolate' scope differs from
  * normal scope in that it does not prototypically inherit from the parent scope. This is useful
@@ -15164,7 +15164,7 @@ function $TemplateCacheProvider() {
  *
  * #### `controllerAs`
  * Identifier name for a reference to the controller in the directive's scope.
- * This allows the controller to be referenced from the directive template. The directive
+ * This allows the controller to be referenced from the directive layout. The directive
  * needs to define a scope for this configuration to be used. Useful in the case when
  * directive is used as component.
  *
@@ -15180,18 +15180,18 @@ function $TemplateCacheProvider() {
  *
  *
  * #### `templateNamespace`
- * String representing the document type used by the markup in the template.
+ * String representing the document type used by the markup in the layout.
  * AngularJS needs this information as those elements need to be created and cloned
  * in a special way when they are defined outside their usual containers like `<svg>` and `<math>`.
  *
- * * `html` - All root nodes in the template are HTML. Root nodes may also be
+ * * `html` - All root nodes in the layout are HTML. Root nodes may also be
  *   top-level elements such as `<svg>` or `<math>`.
- * * `svg` - The root nodes in the template are SVG elements (excluding `<math>`).
- * * `math` - The root nodes in the template are MathML elements (excluding `<svg>`).
+ * * `svg` - The root nodes in the layout are SVG elements (excluding `<math>`).
+ * * `math` - The root nodes in the layout are MathML elements (excluding `<svg>`).
  *
  * If no `templateNamespace` is specified, then the namespace is considered to be `html`.
  *
- * #### `template`
+ * #### `layout`
  * HTML markup that may:
  * * Replace the contents of the directive's element (default).
  * * Replace the directive's element itself (if `replace` is true - DEPRECATED).
@@ -15205,32 +15205,32 @@ function $TemplateCacheProvider() {
  *
  *
  * #### `templateUrl`
- * This is similar to `template` but the template is loaded from the specified URL, asynchronously.
+ * This is similar to `layout` but the layout is loaded from the specified URL, asynchronously.
  *
- * Because template loading is asynchronous the compiler will suspend compilation of directives on that element
- * for later when the template has been resolved.  In the meantime it will continue to compile and link
+ * Because layout loading is asynchronous the compiler will suspend compilation of directives on that element
+ * for later when the layout has been resolved.  In the meantime it will continue to compile and link
  * sibling and parent elements as though this element had not contained any directives.
  *
  * The compiler does not suspend the entire compilation to wait for templates to be loaded because this
  * would result in the whole app "stalling" until all templates are loaded asynchronously - even in the
  * case when only one deeply nested directive has `templateUrl`.
  *
- * Template loading is asynchronous even if the template has been preloaded into the {@link $templateCache}
+ * Template loading is asynchronous even if the layout has been preloaded into the {@link $templateCache}
  *
  * You can specify `templateUrl` as a string representing the URL or as a function which takes two
  * arguments `tElement` and `tAttrs` (described in the `compile` function api below) and returns
- * a string value representing the url.  In either case, the template URL is passed through {@link
+ * a string value representing the url.  In either case, the layout URL is passed through {@link
  * $sce#getTrustedResourceUrl $sce.getTrustedResourceUrl}.
  *
  *
  * #### `replace` ([*DEPRECATED*!], will be removed in next major release - i.e. v2.0)
- * specify what the template should replace. Defaults to `false`.
+ * specify what the layout should replace. Defaults to `false`.
  *
- * * `true` - the template will replace the directive's element.
- * * `false` - the template will replace the contents of the directive's element.
+ * * `true` - the layout will replace the directive's element.
+ * * `false` - the layout will replace the contents of the directive's element.
  *
  * The replacement process migrates all of the attributes / classes from the old element to the new
- * one. See the {@link guide/directive#template-expanding-directive
+ * one. See the {@link guide/directive#layout-expanding-directive
  * Directives Guide} for an example.
  *
  * There are very few scenarios where element replacement is required for the application function,
@@ -15247,7 +15247,7 @@ function $TemplateCacheProvider() {
  *
  * * `true` - transclude the content (i.e. the child nodes) of the directive's element.
  * * `'element'` - transclude the whole of the directive's element including any directives on this
- *   element that defined at a lower priority than this directive. When used, the `template`
+ *   element that defined at a lower priority than this directive. When used, the `layout`
  *   property is ignored.
  *
  *
@@ -15257,19 +15257,19 @@ function $TemplateCacheProvider() {
  *   function compile(tElement, tAttrs, transclude) { ... }
  * ```
  *
- * The compile function deals with transforming the template DOM. Since most directives do not do
- * template transformation, it is not used often. The compile function takes the following arguments:
+ * The compile function deals with transforming the layout DOM. Since most directives do not do
+ * layout transformation, it is not used often. The compile function takes the following arguments:
  *
- *   * `tElement` - template element - The element where the directive has been declared. It is
- *     safe to do template transformation on the element and child elements only.
+ *   * `tElement` - layout element - The element where the directive has been declared. It is
+ *     safe to do layout transformation on the element and child elements only.
  *
- *   * `tAttrs` - template attributes - Normalized list of attributes declared on this element shared
+ *   * `tAttrs` - layout attributes - Normalized list of attributes declared on this element shared
  *     between all directive compile functions.
  *
  *   * `transclude` -  [*DEPRECATED*!] A transclude linking function: `function(scope, cloneLinkingFn)`
  *
  * <div class="alert alert-warning">
- * **Note:** The template instance and the link instance may be different objects if the template has
+ * **Note:** The layout instance and the link instance may be different objects if the layout has
  * been cloned. For this reason it is **not** safe to do anything other than DOM transformations that
  * apply to all cloned DOM nodes within the compile function. Specifically, DOM listener registration
  * should be done in a linking function rather than in a compile function.
@@ -15281,7 +15281,7 @@ function $TemplateCacheProvider() {
  * stack overflow errors.
  *
  * This can be avoided by manually using $compile in the postLink function to imperatively compile
- * a directive's template instead of relying on automatic template compilation via `template` or
+ * a directive's layout instead of relying on automatic layout compilation via `layout` or
  * `templateUrl` declaration or manual compilation inside the compile function.
  * </div>
  *
@@ -15309,7 +15309,7 @@ function $TemplateCacheProvider() {
  * ```
  *
  * The link function is responsible for registering DOM listeners as well as updating the DOM. It is
- * executed after the template has been cloned. This is where most of the directive logic will be
+ * executed after the layout has been cloned. This is where most of the directive logic will be
  * put.
  *
  *   * `scope` - {@link ng.$rootScope.Scope Scope} - The scope to be used by the
@@ -15350,7 +15350,7 @@ function $TemplateCacheProvider() {
  * Executed after the child elements are linked.
  *
  * Note that child elements that contain `templateUrl` directives will not have been compiled
- * and linked since they are waiting for their template to load asynchronously and their own
+ * and linked since they are waiting for their layout to load asynchronously and their own
  * compilation and linking has been suspended until that occurs.
  *
  * It is safe to do DOM transformation in the post-linking function on elements that are not waiting
@@ -15364,13 +15364,13 @@ function $TemplateCacheProvider() {
  * scope from where they were taken.
  *
  * Transclusion is used (often with {@link ngTransclude}) to insert the
- * original contents of a directive's element into a specified place in the template of the directive.
+ * original contents of a directive's element into a specified place in the layout of the directive.
  * The benefit of transclusion, over simply moving the DOM elements manually, is that the transcluded
  * content has access to the properties on the scope from which it was taken, even if the directive
  * has isolated scope.
  * See the {@link guide/directive#creating-a-directive-that-wraps-other-elements Directives Guide}.
  *
- * This makes it possible for the widget to have private state for its template, while the transcluded
+ * This makes it possible for the widget to have private state for its layout, while the transcluded
  * content has access to its originating scope.
  *
  * <div class="alert alert-warning">
@@ -15570,7 +15570,7 @@ function $TemplateCacheProvider() {
 
  *
  *
- * @param {string|DOMElement} element Element or HTML string to compile into a template function.
+ * @param {string|DOMElement} element Element or HTML string to compile into a layout function.
  * @param {function(angular.Scope, cloneAttachFn=)} transclude function available to directives - DEPRECATED.
  *
  * <div class="alert alert-danger">
@@ -15581,12 +15581,12 @@ function $TemplateCacheProvider() {
  *
  * @param {number} maxPriority only apply directives lower than given priority (Only effects the
  *                 root element(s), not their children)
- * @returns {function(scope, cloneAttachFn=, options=)} a link function which is used to bind template
+ * @returns {function(scope, cloneAttachFn=, options=)} a link function which is used to bind layout
  * (a DOM element/tree) to a scope. Where:
  *
  *  * `scope` - A {@link ng.$rootScope.Scope Scope} to bind to.
  *  * `cloneAttachFn` - If `cloneAttachFn` is provided, then the link function will clone the
- *  `template` and call the `cloneAttachFn` function allowing the caller to attach the
+ *  `layout` and call the `cloneAttachFn` function allowing the caller to attach the
  *  cloned elements to the DOM document at the appropriate place. The `cloneAttachFn` is
  *  called as: <br/> `cloneAttachFn(clonedElement, scope)` where:
  *
@@ -15606,7 +15606,7 @@ function $TemplateCacheProvider() {
  *        the cloned elements; only needed for transcludes that are allowed to contain non html
  *        elements (e.g. SVG elements). See also the directive.controller property.
  *
- * Calling the linking function returns the element of the template. It is either the original
+ * Calling the linking function returns the element of the layout. It is either the original
  * element passed in, or the clone of the element if the `cloneAttachFn` is provided.
  *
  * After linking the view is not updated until after a call to $digest which typically is done by
@@ -15614,14 +15614,14 @@ function $TemplateCacheProvider() {
  *
  * If you need access to the bound view, there are two ways to do it:
  *
- * - If you are not asking the linking function to clone the template, create the DOM element(s)
+ * - If you are not asking the linking function to clone the layout, create the DOM element(s)
  *   before you send them to the compiler and keep this reference around.
  *   ```js
  *     var element = $compile('<p>{{total}}</p>')(scope);
  *   ```
  *
  * - if on the other hand, you need the element to be cloned, the view reference from the original
- *   example would not point to the clone, but rather to the original template that was cloned. In
+ *   example would not point to the clone, but rather to the original layout that was cloned. In
  *   this case, you can access the clone via the cloneAttachFn:
  *   ```js
  *     var templateElement = angular.element('<p>{{total}}</p>'),
@@ -16616,7 +16616,7 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
         if (directiveValue = directive.scope) {
 
           // skip the check for directives with async templates, we'll check the derived sync
-          // directive when the template arrives
+          // directive when the layout arrives
           if (!directive.templateUrl) {
             if (isObject(directiveValue)) {
               // This directive is trying to add an isolated scope.
@@ -16714,11 +16714,11 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
 
             var newTemplateAttrs = {$attr: {}};
 
-            // combine directives from the original node and from the template:
+            // combine directives from the original node and from the layout:
             // - take the array of directives for this element
             // - split it into two parts, those that already applied (processed) and those that weren't (unprocessed)
-            // - collect directives from the template and sort them by priority
-            // - combine directives as: processed + template + unprocessed
+            // - collect directives from the layout and sort them by priority
+            // - combine directives as: processed + layout + unprocessed
             var templateDirectives = collectDirectives(compileNode, [], newTemplateAttrs);
             var unprocessedDirectives = directives.splice(i + 1, directives.length - (i + 1));
 
@@ -16963,7 +16963,7 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
         }
 
         // RECURSION
-        // We only pass the isolate scope, if the isolate directive has a template,
+        // We only pass the isolate scope, if the isolate directive has a layout,
         // otherwise the child elements do not belong to the isolate directive.
         var scopeToChild = scope;
         if (newIsolateScopeDirective && (newIsolateScopeDirective.template || newIsolateScopeDirective.templateUrl === null)) {
@@ -17073,12 +17073,12 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
     }
 
     /**
-     * When the element is replaced with HTML template then the new attributes
-     * on the template need to be merged with the existing attributes in the DOM.
+     * When the element is replaced with HTML layout then the new attributes
+     * on the layout need to be merged with the existing attributes in the DOM.
      * The desired effect is to have both of the attributes present.
      *
      * @param {object} dst destination attributes (original DOM)
-     * @param {object} src source attributes (from the directive template)
+     * @param {object} src source attributes (from the directive layout)
      */
     function mergeTemplateAttributes(dst, src) {
       var srcAttr = src.$attr,
@@ -17264,7 +17264,7 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
             var templateNodeParent = templateNode.parent(),
                 hasCompileParent = !!templateNodeParent.length;
 
-            // When transcluding a template that has bindings in the root
+            // When transcluding a layout that has bindings in the root
             // we don't have a parent and thus need to add the class during linking fn.
             if (hasCompileParent) compile.$$addBindingClass(templateNodeParent);
 
@@ -19583,7 +19583,7 @@ function $InterpolateProvider() {
      * output when the $interpolate service processes the text. So, for HTML elements interpolated
      * by {@link ng.$compile $compile}, or otherwise interpolated with the `mustHaveExpression` parameter
      * set to `true`, the interpolated text must contain an unescaped interpolation expression. As such,
-     * this is typically useful only when user-data is used in rendering a template from the server, or
+     * this is typically useful only when user-data is used in rendering a layout from the server, or
      * when otherwise untrusted data is used by a directive.
      *
      * <example>
@@ -23838,7 +23838,7 @@ function $RootScopeProvider() {
      * A root scope can be retrieved using the {@link ng.$rootScope $rootScope} key from the
      * {@link auto.$injector $injector}. Child scopes are created using the
      * {@link ng.$rootScope.Scope#$new $new()} method. (Most scopes are created automatically when
-     * compiled HTML template is executed.)
+     * compiled HTML layout is executed.)
      *
      * Here is a simple scope snippet to show how you can interact with the scope.
      * ```html
@@ -25630,7 +25630,7 @@ function $SceDelegateProvider() {
  *
  * By default, Angular only loads templates from the same domain and protocol as the application
  * document.  This is done by calling {@link ng.$sce#getTrustedResourceUrl
- * $sce.getTrustedResourceUrl} on the template URL.  To load templates from other domains and/or
+ * $sce.getTrustedResourceUrl} on the layout URL.  To load templates from other domains and/or
  * protocols, you may either either {@link ng.$sceDelegateProvider#resourceUrlWhitelist whitelist
  * them} or {@link ng.$sce#trustAsResourceUrl wrap it} into a trusted value.
  *
@@ -25638,7 +25638,7 @@ function $SceDelegateProvider() {
  * The browser's
  * [Same Origin Policy](https://code.google.com/p/browsersec/wiki/Part2#Same-origin_policy_for_XMLHttpRequest)
  * and [Cross-Origin Resource Sharing (CORS)](http://www.w3.org/TR/cors/)
- * policy apply in addition to this and may further restrict whether the template is successfully
+ * policy apply in addition to this and may further restrict whether the layout is successfully
  * loaded.  This means that without the right CORS policy, loading templates from a different domain
  * won't work on all browsers.  Also, loading templates from `file://` URL does not work on some
  * browsers.
@@ -26300,26 +26300,26 @@ var $compileMinErr = minErr('$compile');
  * @name $templateRequest
  *
  * @description
- * The `$templateRequest` service runs security checks then downloads the provided template using
+ * The `$templateRequest` service runs security checks then downloads the provided layout using
  * `$http` and, upon success, stores the contents inside of `$templateCache`. If the HTTP request
  * fails or the response data of the HTTP request is empty, a `$compile` error will be thrown (the
  * exception can be thwarted by setting the 2nd parameter of the function to true). Note that the
  * contents of `$templateCache` are trusted, so the call to `$sce.getTrustedUrl(tpl)` is omitted
  * when `tpl` is of type string and `$templateCache` has the matching entry.
  *
- * @param {string|TrustedResourceUrl} tpl The HTTP request template URL
- * @param {boolean=} ignoreRequestError Whether or not to ignore the exception when the request fails or the template is empty
+ * @param {string|TrustedResourceUrl} tpl The HTTP request layout URL
+ * @param {boolean=} ignoreRequestError Whether or not to ignore the exception when the request fails or the layout is empty
  *
  * @return {Promise} a promise for the HTTP response data of the given URL.
  *
- * @property {number} totalPendingRequests total amount of pending template requests being downloaded.
+ * @property {number} totalPendingRequests total amount of pending layout requests being downloaded.
  */
 function $TemplateRequestProvider() {
   this.$get = ['$templateCache', '$http', '$q', '$sce', function($templateCache, $http, $q, $sce) {
     function handleRequestFn(tpl, ignoreRequestError) {
       handleRequestFn.totalPendingRequests++;
 
-      // We consider the template cache holds only trusted templates, so
+      // We consider the layout cache holds only trusted templates, so
       // there's no need to go through whitelisting again for keys that already
       // are included in there. This also makes Angular accept any script
       // directive, no matter its name. However, we still need to unwrap trusted
@@ -26354,7 +26354,7 @@ function $TemplateRequestProvider() {
 
       function handleError(resp) {
         if (!ignoreRequestError) {
-          throw $compileMinErr('tpload', 'Failed to load template: {0} (HTTP status: {1} {2})',
+          throw $compileMinErr('tpload', 'Failed to load layout: {0} (HTTP status: {1} {2})',
             tpl, resp.status, resp.statusText);
         }
         return $q.reject(resp);
@@ -30929,7 +30929,7 @@ var ngValueDirective = function() {
  * Typically, you don't use `ngBind` directly, but instead you use the double curly markup like
  * `{{ expression }}` which is similar but less verbose.
  *
- * It is preferable to use `ngBind` instead of `{{ expression }}` if a template is momentarily
+ * It is preferable to use `ngBind` instead of `{{ expression }}` if a layout is momentarily
  * displayed by the browser in its raw state before Angular compiles it. Since `ngBind` is an
  * element attribute, it makes the bindings invisible to the user while the page is loading.
  *
@@ -30990,14 +30990,14 @@ var ngBindDirective = ['$compile', function($compile) {
  *
  * @description
  * The `ngBindTemplate` directive specifies that the element
- * text content should be replaced with the interpolation of the template
+ * text content should be replaced with the interpolation of the layout
  * in the `ngBindTemplate` attribute.
  * Unlike `ngBind`, the `ngBindTemplate` can contain multiple `{{` `}}`
  * expressions. This directive is needed since some HTML elements
  * (such as TITLE and OPTION) cannot contain SPAN elements.
  *
  * @element ANY
- * @param {string} ngBindTemplate template of form
+ * @param {string} ngBindTemplate layout of form
  *   <tt>{{</tt> <tt>expression</tt> <tt>}}</tt> to eval.
  *
  * @example
@@ -31014,7 +31014,7 @@ var ngBindDirective = ['$compile', function($compile) {
        <div ng-controller="ExampleController">
         <label>Salutation: <input type="text" ng-model="salutation"></label><br>
         <label>Name: <input type="text" ng-model="name"></label><br>
-        <pre ng-bind-template="{{salutation}} {{name}}!"></pre>
+        <pre ng-bind-layout="{{salutation}} {{name}}!"></pre>
        </div>
      </file>
      <file name="protractor.js" type="protractor">
@@ -31600,9 +31600,9 @@ var ngClassEvenDirective = classDirective('Even', 1);
  * @restrict AC
  *
  * @description
- * The `ngCloak` directive is used to prevent the Angular html template from being briefly
+ * The `ngCloak` directive is used to prevent the Angular html layout from being briefly
  * displayed by the browser in its raw (uncompiled) form while your application is loading. Use this
- * directive to avoid the undesirable flicker effect caused by the html template display.
+ * directive to avoid the undesirable flicker effect caused by the html layout display.
  *
  * The directive can be applied to the `<body>` element, but the preferred usage is to apply
  * multiple `ngCloak` directives to small portions of the page to permit progressive rendering
@@ -31620,7 +31620,7 @@ var ngClassEvenDirective = classDirective('Even', 1);
  *
  * When this css rule is loaded by the browser, all html elements (including their children) that
  * are tagged with the `ngCloak` directive are hidden. When Angular encounters this directive
- * during the compilation of the template it deletes the `ngCloak` element attribute, making
+ * during the compilation of the layout it deletes the `ngCloak` element attribute, making
  * the compiled element visible.
  *
  * For the best result, the `angular.js` script must be loaded in the head section of the html
@@ -31636,7 +31636,7 @@ var ngClassEvenDirective = classDirective('Even', 1);
         <div id="template2" class="ng-cloak">{{ 'world' }}</div>
      </file>
      <file name="protractor.js" type="protractor">
-       it('should remove the template directive and css class', function() {
+       it('should remove the layout directive and css class', function() {
          expect($('#template1').getAttribute('ng-cloak')).
            toBeNull();
          expect($('#template2').getAttribute('ng-cloak')).
@@ -31665,13 +31665,13 @@ var ngCloakDirective = ngDirective({
  *
  * * Model — Models are the properties of a scope; scopes are attached to the DOM where scope properties
  *   are accessed through bindings.
- * * View — The template (HTML with data bindings) that is rendered into the View.
+ * * View — The layout (HTML with data bindings) that is rendered into the View.
  * * Controller — The `ngController` directive specifies a Controller class; the class contains business
  *   logic behind the application to decorate the scope with functions and values
  *
  * Note that you can also attach controllers to the DOM by declaring it in a route definition
  * via the {@link ngRoute.$route $route} service. A common mistake is to declare the controller
- * again using `ng-controller` in the template itself.  This will cause the controller to be attached
+ * again using `ng-controller` in the layout itself.  This will cause the controller to be attached
  * and executed twice.
  *
  * @element ANY
@@ -31705,7 +31705,7 @@ var ngCloakDirective = ngDirective({
  * and in this guide. However, there are advantages to binding properties directly to the controller
  * and avoiding scope.
  *
- * * Using `controller as` makes it obvious which controller you are accessing in the template when
+ * * Using `controller as` makes it obvious which controller you are accessing in the layout when
  * multiple controllers apply to an element.
  * * If you are writing your controllers as classes you have easier access to the properties and
  * methods, which will appear on the scope, from inside the controller code.
@@ -32641,7 +32641,7 @@ var ngIfDirective = ['$animate', function($animate) {
                 clone[clone.length++] = document.createComment(' end ngIf: ' + $attr.ngIf + ' ');
                 // Note: We only need the first/last node of the cloned nodes.
                 // However, we need to keep the reference to the jqlite wrapper as it might be changed later
-                // by a directive with templateUrl when its template arrives.
+                // by a directive with templateUrl when its layout arrives.
                 block = {
                   clone: clone
                 };
@@ -32678,7 +32678,7 @@ var ngIfDirective = ['$animate', function($animate) {
  * @description
  * Fetches, compiles and includes an external HTML fragment.
  *
- * By default, the template URL is restricted to the same domain and protocol as the
+ * By default, the layout URL is restricted to the same domain and protocol as the
  * application document. This is done by calling {@link $sce#getTrustedResourceUrl
  * $sce.getTrustedResourceUrl} on it. To load templates from other domains or protocols
  * you may either {@link ng.$sceDelegateProvider#resourceUrlWhitelist whitelist them} or
@@ -32688,7 +32688,7 @@ var ngIfDirective = ['$animate', function($animate) {
  * In addition, the browser's
  * [Same Origin Policy](https://code.google.com/p/browsersec/wiki/Part2#Same-origin_policy_for_XMLHttpRequest)
  * and [Cross-Origin Resource Sharing (CORS)](http://www.w3.org/TR/cors/)
- * policy may further restrict whether the template is successfully loaded.
+ * policy may further restrict whether the layout is successfully loaded.
  * For example, `ngInclude` won't work for cross-domain requests on all browsers and for `file://`
  * access on some browsers.
  *
@@ -32716,13 +32716,13 @@ var ngIfDirective = ['$animate', function($animate) {
   <example module="includeExample" deps="angular-animate.js" animations="true">
     <file name="index.html">
      <div ng-controller="ExampleController">
-       <select ng-model="template" ng-options="t.name for t in templates">
+       <select ng-model="layout" ng-options="t.name for t in templates">
         <option value="">(blank)</option>
        </select>
-       url of the template: <code>{{template.url}}</code>
+       url of the layout: <code>{{layout.url}}</code>
        <hr/>
        <div class="slide-animate-container">
-         <div class="slide-animate" ng-include="template.url"></div>
+         <div class="slide-animate" ng-include="layout.url"></div>
        </div>
      </div>
     </file>
@@ -32732,7 +32732,7 @@ var ngIfDirective = ['$animate', function($animate) {
           $scope.templates =
             [ { name: 'template1.html', url: 'template1.html'},
               { name: 'template2.html', url: 'template2.html'} ];
-          $scope.template = $scope.templates[0];
+          $scope.layout = $scope.templates[0];
         }]);
      </file>
     <file name="template1.html">
@@ -32782,7 +32782,7 @@ var ngIfDirective = ['$animate', function($animate) {
       }
     </file>
     <file name="protractor.js" type="protractor">
-      var templateSelect = element(by.model('template'));
+      var templateSelect = element(by.model('layout'));
       var includeElem = element(by.css('[ng-include]'));
 
       it('should load template1.html', function() {
@@ -32843,7 +32843,7 @@ var ngIfDirective = ['$animate', function($animate) {
  * @name ngInclude#$includeContentError
  * @eventType emit on the scope ngInclude was declared in
  * @description
- * Emitted when a template HTTP request yields an erroneous response (status < 200 || status > 299)
+ * Emitted when a layout HTTP request yields an erroneous response (status < 200 || status > 299)
  *
  * @param {Object} angularEvent Synthetic event object.
  * @param {String} src URL of content to load.
@@ -32894,7 +32894,7 @@ var ngIncludeDirective = ['$templateRequest', '$anchorScroll', '$animate',
           var thisChangeId = ++changeCounter;
 
           if (src) {
-            //set the 2nd param to true to ignore the template request error so that the inner
+            //set the 2nd param to true to ignore the layout request error so that the inner
             //contents and scope can be cleaned up.
             $templateRequest(src, true).then(function(response) {
               if (thisChangeId !== changeCounter) return;
@@ -32935,7 +32935,7 @@ var ngIncludeDirective = ['$templateRequest', '$anchorScroll', '$animate',
 }];
 
 // This directive is called during the $transclude call of the first `ngInclude` directive.
-// It will replace and compile the content of the element with the loaded template.
+// It will replace and compile the content of the element with the loaded layout.
 // We need this directive so that the element content is already filled when
 // the link function of another directive on the same element as ngInclude
 // is called.
@@ -35519,11 +35519,11 @@ var ngPluralizeDirective = ['$locale', '$interpolate', '$log', function($locale,
  * @multiElement
  *
  * @description
- * The `ngRepeat` directive instantiates a template once per item from a collection. Each template
+ * The `ngRepeat` directive instantiates a layout once per item from a collection. Each layout
  * instance gets its own scope, where the given loop variable is set to the current collection item,
  * and `$index` is set to the item index or key.
  *
- * Special properties are exposed on the local scope of each template instance, including:
+ * Special properties are exposed on the local scope of each layout instance, including:
  *
  * | Variable  | Type            | Details                                                                     |
  * |-----------|-----------------|-----------------------------------------------------------------------------|
@@ -35566,8 +35566,8 @@ var ngPluralizeDirective = ['$locale', '$interpolate', '$log', function($locale,
  *
  * When the contents of the collection change, `ngRepeat` makes the corresponding changes to the DOM:
  *
- * * When an item is added, a new instance of the template is added to the DOM.
- * * When an item is removed, its template instance is removed from the DOM.
+ * * When an item is added, a new instance of the layout is added to the DOM.
+ * * When an item is removed, its layout instance is removed from the DOM.
  * * When items are reordered, their respective templates are reordered in the DOM.
  *
  * By default, `ngRepeat` does not allow duplicate items in arrays. This is because when
@@ -36027,7 +36027,7 @@ var ngRepeatDirective = ['$parse', '$animate', function($parse, $animate) {
                 previousNode = endNode;
                 // Note: We only need the first/last node of the cloned nodes.
                 // However, we need to keep the reference to the jqlite wrapper as it might be changed later
-                // by a directive with templateUrl when its template arrives.
+                // by a directive with templateUrl when its layout arrives.
                 block.clone = clone;
                 nextBlockMap[block.id] = block;
                 updateScope(block.scope, index, valueIdentifier, value, keyIdentifier, key, collectionLength);
@@ -36439,12 +36439,12 @@ var ngStyleDirective = ngDirective(function(scope, element, attr) {
  * @restrict EA
  *
  * @description
- * The `ngSwitch` directive is used to conditionally swap DOM structure on your template based on a scope expression.
+ * The `ngSwitch` directive is used to conditionally swap DOM structure on your layout based on a scope expression.
  * Elements within `ngSwitch` but without `ngSwitchWhen` or `ngSwitchDefault` directives will be preserved at the location
- * as specified in the template.
+ * as specified in the layout.
  *
- * The directive itself works similar to ngInclude, however, instead of downloading template code (or loading it
- * from the template cache), `ngSwitch` simply chooses one of the nested elements and makes it visible based on which element
+ * The directive itself works similar to ngInclude, however, instead of downloading layout code (or loading it
+ * from the layout cache), `ngSwitch` simply chooses one of the nested elements and makes it visible based on which element
  * matches the value obtained from the evaluated expression. In other words, you define a container element
  * (where you place the directive), place an expression on the **`on="..."` attribute**
  * (or the **`ng-switch="..."` attribute**), define any inner elements inside of the directive and place
@@ -36659,7 +36659,7 @@ var ngSwitchDefaultDirective = ngDirective({
                restrict: 'E',
                transclude: true,
                scope: { title:'@' },
-               template: '<div style="border: 1px solid black;">' +
+               layout: '<div style="border: 1px solid black;">' +
                            '<div style="background-color: gray">{{title}}</div>' +
                            '<ng-transclude></ng-transclude>' +
                          '</div>'
@@ -36696,7 +36696,7 @@ var ngTranscludeDirective = ngDirective({
   link: function($scope, $element, $attrs, controller, $transclude) {
     if (!$transclude) {
       throw minErr('ngTransclude')('orphan',
-       'Illegal use of ngTransclude directive in the template! ' +
+       'Illegal use of ngTransclude directive in the layout! ' +
        'No parent directive that requires a transclusion found. ' +
        'Element: {0}',
        startingTag($element));
@@ -36716,28 +36716,28 @@ var ngTranscludeDirective = ngDirective({
  *
  * @description
  * Load the content of a `<script>` element into {@link ng.$templateCache `$templateCache`}, so that the
- * template can be used by {@link ng.directive:ngInclude `ngInclude`},
+ * layout can be used by {@link ng.directive:ngInclude `ngInclude`},
  * {@link ngRoute.directive:ngView `ngView`}, or {@link guide/directive directives}. The type of the
- * `<script>` element must be specified as `text/ng-template`, and a cache name for the template must be
+ * `<script>` element must be specified as `text/ng-layout`, and a cache name for the layout must be
  * assigned through the element's `id`, which can then be used as a directive's `templateUrl`.
  *
- * @param {string} type Must be set to `'text/ng-template'`.
- * @param {string} id Cache name of the template.
+ * @param {string} type Must be set to `'text/ng-layout'`.
+ * @param {string} id Cache name of the layout.
  *
  * @example
   <example>
     <file name="index.html">
-      <script type="text/ng-template" id="/tpl.html">
-        Content of the template.
+      <script type="text/ng-layout" id="/tpl.html">
+        Content of the layout.
       </script>
 
-      <a ng-click="currentTpl='/tpl.html'" id="tpl-link">Load inlined template</a>
+      <a ng-click="currentTpl='/tpl.html'" id="tpl-link">Load inlined layout</a>
       <div id="tpl-content" ng-include src="currentTpl"></div>
     </file>
     <file name="protractor.js" type="protractor">
-      it('should load template defined inside script tag', function() {
+      it('should load layout defined inside script tag', function() {
         element(by.css('#tpl-link')).click();
-        expect(element(by.css('#tpl-content')).getText()).toMatch(/Content of the template/);
+        expect(element(by.css('#tpl-content')).getText()).toMatch(/Content of the layout/);
       });
     </file>
   </example>
@@ -36747,7 +36747,7 @@ var scriptDirective = ['$templateCache', function($templateCache) {
     restrict: 'E',
     terminal: true,
     compile: function(element, attr) {
-      if (attr.type == 'text/ng-template') {
+      if (attr.type == 'text/ng-layout') {
         var templateUrl = attr.id,
             text = element[0].text;
 
@@ -40583,7 +40583,7 @@ var $$AnimationProvider = ['$animateProvider', function($animateProvider) {
  * `ng-animate-ref` attribute we can identify that the two components are paired together and we
  * can then attach an animation, which is triggered when the view changes.
  *
- * Say for example we have the following template code:
+ * Say for example we have the following layout code:
  *
  * ```html
  * <!-- index.html -->
@@ -42195,24 +42195,24 @@ function $TemplateFactory(  $http,   $templateCache,   $injector) {
    * @methodOf ui.router.util.$templateFactory
    *
    * @description
-   * Creates a template from a configuration object. 
+   * Creates a layout from a configuration object.
    *
-   * @param {object} config Configuration object for which to load a template. 
+   * @param {object} config Configuration object for which to load a layout.
    * The following properties are search in the specified order, and the first one 
-   * that is defined is used to create the template:
+   * that is defined is used to create the layout:
    *
-   * @param {string|object} config.template html string template or function to 
+   * @param {string|object} config.layout html string layout or function to
    * load via {@link ui.router.util.$templateFactory#fromString fromString}.
    * @param {string|object} config.templateUrl url to load or a function returning 
    * the url to load via {@link ui.router.util.$templateFactory#fromUrl fromUrl}.
    * @param {Function} config.templateProvider function to invoke via 
    * {@link ui.router.util.$templateFactory#fromProvider fromProvider}.
-   * @param {object} params  Parameters to pass to the template function.
-   * @param {object} locals Locals to pass to `invoke` if the template is loaded 
+   * @param {object} params  Parameters to pass to the layout function.
+   * @param {object} locals Locals to pass to `invoke` if the layout is loaded
    * via a `templateProvider`. Defaults to `{ params: params }`.
    *
-   * @return {string|object}  The template html as a string, or a promise for 
-   * that string,or `null` if no template is configured.
+   * @return {string|object}  The layout html as a string, or a promise for
+   * that string,or `null` if no layout is configured.
    */
   this.fromConfig = function (config, params, locals) {
     return (
@@ -42229,13 +42229,13 @@ function $TemplateFactory(  $http,   $templateCache,   $injector) {
    * @methodOf ui.router.util.$templateFactory
    *
    * @description
-   * Creates a template from a string or a function returning a string.
+   * Creates a layout from a string or a function returning a string.
    *
-   * @param {string|object} template html template as a string or function that 
-   * returns an html template as a string.
-   * @param {object} params Parameters to pass to the template function.
+   * @param {string|object} template html layout as a string or function that
+   * returns an html layout as a string.
+   * @param {object} params Parameters to pass to the layout function.
    *
-   * @return {string|object} The template html as a string, or a promise for that 
+   * @return {string|object} The layout html as a string, or a promise for that
    * string.
    */
   this.fromString = function (template, params) {
@@ -42248,12 +42248,12 @@ function $TemplateFactory(  $http,   $templateCache,   $injector) {
    * @methodOf ui.router.util.$templateFactory
    * 
    * @description
-   * Loads a template from the a URL via `$http` and `$templateCache`.
+   * Loads a layout from the a URL via `$http` and `$templateCache`.
    *
-   * @param {string|Function} url url of the template to load, or a function 
+   * @param {string|Function} url url of the layout to load, or a function
    * that returns a url.
    * @param {Object} params Parameters to pass to the url function.
-   * @return {string|Promise.<string>} The template html as a string, or a promise 
+   * @return {string|Promise.<string>} The layout html as a string, or a promise
    * for that string.
    */
   this.fromUrl = function (url, params) {
@@ -42270,13 +42270,13 @@ function $TemplateFactory(  $http,   $templateCache,   $injector) {
    * @methodOf ui.router.util.$templateFactory
    *
    * @description
-   * Creates a template by invoking an injectable provider function.
+   * Creates a layout by invoking an injectable provider function.
    *
    * @param {Function} provider Function to invoke via `$injector.invoke`
-   * @param {Object} params Parameters for the template.
+   * @param {Object} params Parameters for the layout.
    * @param {Object} locals Locals to pass to `invoke`. Defaults to 
    * `{ params: params }`.
-   * @return {string|Promise.<string>} The template html as a string, or a promise 
+   * @return {string|Promise.<string>} The layout html as a string, or a promise
    * for that string.
    */
   this.fromProvider = function (provider, params, locals) {
@@ -43698,7 +43698,7 @@ function $UrlRouterProvider(   $locationProvider,   $urlMatcherFactory) {
        * // $bob == "/about/bob";
        * </pre>
        *
-       * @param {UrlMatcher} urlMatcher The `UrlMatcher` object which is used as the template of the URL to generate.
+       * @param {UrlMatcher} urlMatcher The `UrlMatcher` object which is used as the layout of the URL to generate.
        * @param {object=} params An object of parameter values to fill the matcher's required parameters.
        * @param {object=} options Options object. The options are:
        *
@@ -43749,7 +43749,7 @@ angular.module('ui.router.router').provider('$urlRouter', $UrlRouterProvider);
  * on state.
  *
  * A state corresponds to a "place" in the application in terms of the overall UI and
- * navigation. A state describes (via the controller / template / view properties) what
+ * navigation. A state describes (via the controller / layout / view properties) what
  * the UI looks like and does at that place.
  *
  * States often have things in common, and the primary way of factoring out these
@@ -44031,9 +44031,9 @@ function $StateProvider(   $urlRouterProvider,   $urlMatcherFactory) {
    *   be a super-set of parent's params.
    * - **views** `{object}` - returns a views object where each key is an absolute view 
    *   name (i.e. "viewName@stateName") and each value is the config object 
-   *   (template, controller) for the view. Even when you don't use the views object 
+   *   (layout, controller) for the view. Even when you don't use the views object
    *   explicitly on a state config, one is still created for you internally.
-   *   So by decorating this builder function you have access to decorating template 
+   *   So by decorating this builder function you have access to decorating layout
    *   and controller properties.
    * - **ownParams** `{object}` - returns an array of params that belong to the state, 
    *   not including any params defined by ancestor states.
@@ -44109,29 +44109,29 @@ function $StateProvider(   $urlRouterProvider,   $urlMatcherFactory) {
    * @param {string} name A unique state name, e.g. "home", "about", "contacts".
    * To create a parent/child state use a dot, e.g. "about.sales", "home.newest".
    * @param {object} stateConfig State configuration object.
-   * @param {string|function=} stateConfig.template
-   * <a id='template'></a>
-   *   html template as a string or a function that returns
-   *   an html template as a string which should be used by the uiView directives. This property 
+   * @param {string|function=} stateConfig.layout
+   * <a id='layout'></a>
+   *   html layout as a string or a function that returns
+   *   an html layout as a string which should be used by the uiView directives. This property
    *   takes precedence over templateUrl.
    *   
-   *   If `template` is a function, it will be called with the following parameters:
+   *   If `layout` is a function, it will be called with the following parameters:
    *
    *   - {array.&lt;object&gt;} - state parameters extracted from the current $location.path() by
    *     applying the current state
    *
-   * <pre>template:
-   *   "<h1>inline template definition</h1>" +
+   * <pre>layout:
+   *   "<h1>inline layout definition</h1>" +
    *   "<div ui-view></div>"</pre>
-   * <pre>template: function(params) {
-   *       return "<h1>generated template</h1>"; }</pre>
+   * <pre>layout: function(params) {
+   *       return "<h1>generated layout</h1>"; }</pre>
    * </div>
    *
    * @param {string|function=} stateConfig.templateUrl
    * <a id='templateUrl'></a>
    *
    *   path or function that returns a path to an html
-   *   template that should be used by uiView.
+   *   layout that should be used by uiView.
    *   
    *   If `templateUrl` is a function, it will be called with the following parameters:
    *
@@ -44232,7 +44232,7 @@ function $StateProvider(   $urlRouterProvider,   $urlMatcherFactory) {
    *
    * Examples:
    *
-   * Targets three named `ui-view`s in the parent state's template
+   * Targets three named `ui-view`s in the parent state's layout
    * <pre>views: {
    *     header: {
    *       controller: "headerCtrl",
@@ -44246,7 +44246,7 @@ function $StateProvider(   $urlRouterProvider,   $urlMatcherFactory) {
    *     }
    *   }</pre>
    *
-   * Targets named `ui-view="header"` from grandparent state 'top''s template, and named `ui-view="body" from parent state's template.
+   * Targets named `ui-view="header"` from grandparent state 'top''s layout, and named `ui-view="body" from parent state's layout.
    * <pre>views: {
    *     'header@top': {
    *       controller: "msgHeaderCtrl",
@@ -44891,8 +44891,8 @@ function $StateProvider(   $urlRouterProvider,   $urlMatcherFactory) {
      * $state.is('contact.details.item'); // returns true
      * $state.is(contactDetailItemStateObject); // returns true
      *
-     * // relative name (. and ^), typically from a template
-     * // E.g. from the 'contacts.details' template
+     * // relative name (. and ^), typically from a layout
+     * // E.g. from the 'contacts.details' layout
      * <div ng-class="{highlighted: $state.is('.item')}">Item</div>
      * </pre>
      *
@@ -44937,8 +44937,8 @@ function $StateProvider(   $urlRouterProvider,   $urlMatcherFactory) {
      * $state.includes("contacts.list"); // returns false
      * $state.includes("about"); // returns false
      *
-     * // Using relative names (. and ^), typically from a template
-     * // E.g. from the 'contacts.details' template
+     * // Using relative names (. and ^), typically from a layout
+     * // E.g. from the 'contacts.details' layout
      * <div ng-class="{highlighted: $state.includes('.item')}">Item</div>
      * </pre>
      *
@@ -45069,7 +45069,7 @@ function $StateProvider(   $urlRouterProvider,   $urlMatcherFactory) {
       })];
       if (inherited) promises.push(inherited);
 
-      // Resolve template and dependencies for all views.
+      // Resolve layout and dependencies for all views.
       forEach(state.views, function (view, name) {
         var injectables = (view.resolve && view.resolve !== state.resolve ? view.resolve : {});
         injectables.$template = [ function () {
@@ -45129,7 +45129,7 @@ function $ViewProvider() {
   $get.$inject = ['$rootScope', '$templateFactory'];
   function $get(   $rootScope,   $templateFactory) {
     return {
-      // $view.load('full.viewName', { template: ..., controller: ..., resolve: ..., async: false, params: ... })
+      // $view.load('full.viewName', { layout: ..., controller: ..., resolve: ..., async: false, params: ... })
       /**
        * @ngdoc function
        * @name ui.router.state.$view#load
@@ -45160,7 +45160,7 @@ function $ViewProvider() {
          * Fired once the view **begins loading**, *before* the DOM is rendered.
          *
          * @param {Object} event Event object.
-         * @param {Object} viewConfig The view config properties (template, controller, etc).
+         * @param {Object} viewConfig The view config properties (layout, controller, etc).
          *
          * @example
          *
@@ -45275,12 +45275,12 @@ angular.module('ui.router.state').provider('$uiViewScroll', $ViewScrollProvider)
  * <div ui-view="viewName"></div>
  * </pre>
  *
- * You can only have one unnamed view within any template (or root html). If you are only using a 
+ * You can only have one unnamed view within any layout (or root html). If you are only using a
  * single view and it is unnamed then you can populate it like so:
  * <pre>
  * <div ui-view></div> 
  * $stateProvider.state("home", {
- *   template: "<h1>HELLO!</h1>"
+ *   layout: "<h1>HELLO!</h1>"
  * })
  * </pre>
  * 
@@ -45290,14 +45290,14 @@ angular.module('ui.router.state').provider('$uiViewScroll', $ViewScrollProvider)
  * $stateProvider.state("home", {
  *   views: {
  *     "": {
- *       template: "<h1>HELLO!</h1>"
+ *       layout: "<h1>HELLO!</h1>"
  *     }
  *   }    
  * })
  * </pre>
  * 
  * But typically you'll only use the views property if you name your view or have more than one view 
- * in the same template. There's not really a compelling reason to name a view if its the only one, 
+ * in the same layout. There's not really a compelling reason to name a view if its the only one,
  * but you could if you wanted, like so:
  * <pre>
  * <div ui-view="main"></div>
@@ -45306,7 +45306,7 @@ angular.module('ui.router.state').provider('$uiViewScroll', $ViewScrollProvider)
  * $stateProvider.state("home", {
  *   views: {
  *     "main": {
- *       template: "<h1>HELLO!</h1>"
+ *       layout: "<h1>HELLO!</h1>"
  *     }
  *   }    
  * })
@@ -45323,13 +45323,13 @@ angular.module('ui.router.state').provider('$uiViewScroll', $ViewScrollProvider)
  * $stateProvider.state("home", {
  *   views: {
  *     "": {
- *       template: "<h1>HELLO!</h1>"
+ *       layout: "<h1>HELLO!</h1>"
  *     },
  *     "chart": {
- *       template: "<chart_thing/>"
+ *       layout: "<chart_thing/>"
  *     },
  *     "data": {
- *       template: "<data_thing/>"
+ *       layout: "<data_thing/>"
  *     }
  *   }    
  * })
@@ -45576,7 +45576,7 @@ function stateContext(el) {
  * You can also use relative state paths within ui-sref, just like the relative 
  * paths passed to `$state.go()`. You just need to be aware that the path is relative
  * to the state that the link lives in, in other words the state that loaded the 
- * template containing the link.
+ * layout containing the link.
  *
  * You can specify options to pass to {@link ui.router.state.$state#go $state.go()}
  * using the `ui-sref-opts` attribute. Options are restricted to `location`, `inherit`,
@@ -45584,7 +45584,7 @@ function stateContext(el) {
  *
  * @example
  * Here's an example of how you'd use ui-sref and how it would compile. If you have the 
- * following template:
+ * following layout:
  * <pre>
  * <a ui-sref="home">Home</a> | <a ui-sref="about">About</a> | <a ui-sref="{page: 2}">Next page</a>
  * 
@@ -45714,7 +45714,7 @@ function $StateRefDirective($state, $timeout) {
  * {@link ui.router.state.directive:ui-sref-active-eq ui-sref-active-eq}
  *
  * @example
- * Given the following template:
+ * Given the following layout:
  * <pre>
  * <ul>
  *   <li ui-sref-active="active" class="item">
@@ -45998,7 +45998,7 @@ function($rootScope, $compile, $animate, $timeout, $ionicTemplateLoader, $ionicP
     textForIcon(scope.cancelText);
     textForIcon(scope.destructiveText);
 
-    // Compile the template
+    // Compile the layout
     var element = scope.element = $compile('<ion-action-sheet ng-class="cssClass" buttons="buttons"></ion-action-sheet>')(scope);
 
     // Grab the sheet element for animation
@@ -46742,7 +46742,7 @@ function($rootScope, $state, $location, $window, $timeout, $ionicViewSwitcher, $
 
       } else {
 
-        // create an element from the viewLocals template
+        // create an element from the viewLocals layout
         ele = $ionicViewSwitcher.createViewEle(viewLocals);
         if (this.isAbstractEle(ele, viewLocals)) {
           void 0;
@@ -47479,8 +47479,8 @@ function($rootScope, $state, $location, $document, $ionicPlatform, $ionicHistory
  * @name $ionicConfigProvider#templates.maxPrefetch
  * @description Sets the maximum number of templates to prefetch from the templateUrls defined in
  * $stateProvider.state. If set to `0`, the user will have to wait
- * for a template to be fetched the first time when navigating to a new page. Default `30`.
- * @param {integer} value Max number of template to prefetch from the templateUrls defined in
+ * for a layout to be fetched the first time when navigating to a new page. Default `30`.
+ * @param {integer} value Max number of layout to prefetch from the templateUrls defined in
  * `$stateProvider.state()`.
  * @returns {integer}
  */
@@ -47975,7 +47975,7 @@ var LOADING_TPL =
 
 var LOADING_HIDE_DEPRECATED = '$ionicLoading instance.hide() has been deprecated. Use $ionicLoading.hide().';
 var LOADING_SHOW_DEPRECATED = '$ionicLoading instance.show() has been deprecated. Use $ionicLoading.show().';
-var LOADING_SET_DEPRECATED = '$ionicLoading instance.setContent() has been deprecated. Use $ionicLoading.show({ template: \'my content\' }).';
+var LOADING_SET_DEPRECATED = '$ionicLoading instance.setContent() has been deprecated. Use $ionicLoading.show({ layout: \'my content\' }).';
 
 /**
  * @ngdoc service
@@ -47991,7 +47991,7 @@ var LOADING_SET_DEPRECATED = '$ionicLoading instance.setContent() has been depre
  * .controller('LoadingCtrl', function($scope, $ionicLoading) {
  *   $scope.show = function() {
  *     $ionicLoading.show({
- *       template: 'Loading...'
+ *       layout: 'Loading...'
  *     });
  *   };
  *   $scope.hide = function(){
@@ -48011,7 +48011,7 @@ var LOADING_SET_DEPRECATED = '$ionicLoading instance.setContent() has been depre
  * ```js
  * var app = angular.module('myApp', ['ionic'])
  * app.constant('$ionicLoadingConfig', {
- *   template: 'Default Loading Template...'
+ *   layout: 'Default Loading Template...'
  * });
  * app.controller('AppCtrl', function($scope, $ionicLoading) {
  *   $scope.showLoading = function() {
@@ -48052,8 +48052,8 @@ function($ionicLoadingConfig, $ionicBody, $ionicTemplateLoader, $ionicBackdrop, 
      * @description Shows a loading indicator. If the indicator is already shown,
      * it will set the options given and keep the indicator shown.
      * @param {object} opts The options for the loading indicator. Available properties:
-     *  - `{string=}` `template` The html content of the indicator.
-     *  - `{string=}` `templateUrl` The url of an html template to load as the content of the indicator.
+     *  - `{string=}` `layout` The html content of the indicator.
+     *  - `{string=}` `templateUrl` The url of an html layout to load as the content of the indicator.
      *  - `{object=}` `scope` The scope to be a child of. Default: creates a child of $rootScope.
      *  - `{boolean=}` `noBackdrop` Whether to hide the backdrop. By default it will be shown.
      *  - `{boolean=}` `hideOnStateChange` Whether to hide the loading spinner when navigating
@@ -48121,7 +48121,7 @@ function($ionicLoadingConfig, $ionicBody, $ionicTemplateLoader, $ionicBackdrop, 
               $compile(loading.contents())(self.scope);
             }
 
-            //Don't show until template changes
+            //Don't show until layout changes
             if (self.isShown) {
               self.element.addClass('visible');
               ionic.requestAnimationFrame(function() {
@@ -48223,12 +48223,12 @@ function($ionicLoadingConfig, $ionicBody, $ionicTemplateLoader, $ionicBackdrop, 
  * scope, passing in itself as an event argument. Both the modal.removed and modal.hidden events are
  * called when the modal is removed.
  *
- * - This example assumes your modal is in your main index file or another template file. If it is in its own
- * template file, remove the script tags and call it by file name.
+ * - This example assumes your modal is in your main index file or another layout file. If it is in its own
+ * layout file, remove the script tags and call it by file name.
  *
  * @usage
  * ```html
- * <script id="my-modal.html" type="text/ng-template">
+ * <script id="my-modal.html" type="text/ng-layout">
  *   <ion-modal-view>
  *     <ion-header-bar>
  *       <h1 class="title">My Modal title</h1>
@@ -48483,7 +48483,7 @@ function($rootScope, $ionicBody, $compile, $timeout, $ionicPlatform, $ionicTempl
       $hasTabsTop: false
     });
 
-    // Compile the template
+    // Compile the layout
     var element = $compile('<ion-' + options.viewType + '>' + templateString + '</ion-' + options.viewType + '>')(scope);
 
     options.$el = element;
@@ -48523,7 +48523,7 @@ function($rootScope, $ionicBody, $compile, $timeout, $ionicPlatform, $ionicTempl
     /**
      * @ngdoc method
      * @name $ionicModal#fromTemplate
-     * @param {string} templateString The template string to use as the modal's
+     * @param {string} templateString The layout string to use as the modal's
      * content.
      * @param {object} options Options to be passed {@link ionic.controller:ionicModal#initialize ionicModal#initialize} method.
      * @returns {object} An instance of an {@link ionic.controller:ionicModal}
@@ -48536,7 +48536,7 @@ function($rootScope, $ionicBody, $compile, $timeout, $ionicPlatform, $ionicTempl
     /**
      * @ngdoc method
      * @name $ionicModal#fromTemplateUrl
-     * @param {string} templateUrl The url to load the template from.
+     * @param {string} templateUrl The url to load the layout from.
      * @param {object} options Options to be passed {@link ionic.controller:ionicModal#initialize ionicModal#initialize} method.
      * options object.
      * @returns {promise} A promise that will be resolved with an instance of
@@ -48844,7 +48844,7 @@ IonicModule
  *   <button ng-click="openPopover($event)">Open Popover</button>
  * </p>
  *
- * <script id="my-popover.html" type="text/ng-template">
+ * <script id="my-popover.html" type="text/ng-layout">
  *   <ion-popover-view>
  *     <ion-header-bar>
  *       <h1 class="title">My Popover Title</h1>
@@ -48860,9 +48860,9 @@ IonicModule
  * .controller('MyController', function($scope, $ionicPopover) {
  *
  *   // .fromTemplate() method
- *   var template = '<ion-popover-view><ion-header-bar> <h1 class="title">My Popover Title</h1> </ion-header-bar> <ion-content> Hello! </ion-content></ion-popover-view>';
+ *   var layout = '<ion-popover-view><ion-header-bar> <h1 class="title">My Popover Title</h1> </ion-header-bar> <ion-content> Hello! </ion-content></ion-popover-view>';
  *
- *   $scope.popover = $ionicPopover.fromTemplate(template, {
+ *   $scope.popover = $ionicPopover.fromTemplate(layout, {
  *     scope: $scope
  *   });
  *
@@ -49019,7 +49019,7 @@ function($ionicModal, $ionicPosition, $document, $window) {
     /**
      * @ngdoc method
      * @name $ionicPopover#fromTemplate
-     * @param {string} templateString The template string to use as the popovers's
+     * @param {string} templateString The layout string to use as the popovers's
      * content.
      * @param {object} options Options to be passed to the initialize method.
      * @returns {object} An instance of an {@link ionic.controller:ionicPopover}
@@ -49031,7 +49031,7 @@ function($ionicModal, $ionicPosition, $document, $window) {
     /**
      * @ngdoc method
      * @name $ionicPopover#fromTemplateUrl
-     * @param {string} templateUrl The url to load the template from.
+     * @param {string} templateUrl The url to load the layout from.
      * @param {object} options Options to be passed to the initialize method.
      * @returns {promise} A promise that will be resolved with an instance of
      * an {@link ionic.controller:ionicPopover} controller (ionicPopover is built on top of $ionicPopover).
@@ -49092,7 +49092,7 @@ var POPUP_TPL =
  *
  *   // An elaborate, custom popup
  *   var myPopup = $ionicPopup.show({
- *     template: '<input type="password" ng-model="data.wifi">',
+ *     layout: '<input type="password" ng-model="data.wifi">',
  *     title: 'Enter Wi-Fi Password',
  *     subTitle: 'Please use normal things',
  *     scope: $scope,
@@ -49123,7 +49123,7 @@ var POPUP_TPL =
  *  $scope.showConfirm = function() {
  *    var confirmPopup = $ionicPopup.confirm({
  *      title: 'Consume Ice Cream',
- *      template: 'Are you sure you want to eat this ice cream?'
+ *      layout: 'Are you sure you want to eat this ice cream?'
  *    });
  *    confirmPopup.then(function(res) {
  *      if(res) {
@@ -49138,7 +49138,7 @@ var POPUP_TPL =
  *  $scope.showAlert = function() {
  *    var alertPopup = $ionicPopup.alert({
  *      title: 'Don\'t eat that!',
- *      template: 'It might taste good'
+ *      layout: 'It might taste good'
  *    });
  *    alertPopup.then(function(res) {
  *      console.log('Thank you for not eating my delicious ice cream cone');
@@ -49188,8 +49188,8 @@ function($ionicTemplateLoader, $ionicBackdrop, $q, $timeout, $rootScope, $ionicB
      *   title: '', // String. The title of the popup.
      *   cssClass: '', // String, The custom CSS class name
      *   subTitle: '', // String (optional). The sub-title of the popup.
-     *   template: '', // String (optional). The html template to place in the popup body.
-     *   templateUrl: '', // String (optional). The URL of an html template to place in the popup   body.
+     *   layout: '', // String (optional). The html layout to place in the popup body.
+     *   templateUrl: '', // String (optional). The URL of an html layout to place in the popup   body.
      *   scope: null, // Scope (optional). A scope to link to the popup content.
      *   buttons: [{ // Array[Object] (optional). Buttons to place in the popup footer.
      *     text: 'Cancel',
@@ -49227,8 +49227,8 @@ function($ionicTemplateLoader, $ionicBackdrop, $q, $timeout, $rootScope, $ionicB
      *   title: '', // String. The title of the popup.
      *   cssClass: '', // String, The custom CSS class name
      *   subTitle: '', // String (optional). The sub-title of the popup.
-     *   template: '', // String (optional). The html template to place in the popup body.
-     *   templateUrl: '', // String (optional). The URL of an html template to place in the popup   body.
+     *   layout: '', // String (optional). The html layout to place in the popup body.
+     *   templateUrl: '', // String (optional). The URL of an html layout to place in the popup   body.
      *   okText: '', // String (default: 'OK'). The text of the OK button.
      *   okType: '', // String (default: 'button-positive'). The type of the OK button.
      * }
@@ -49256,8 +49256,8 @@ function($ionicTemplateLoader, $ionicBackdrop, $q, $timeout, $rootScope, $ionicB
      *   title: '', // String. The title of the popup.
      *   cssClass: '', // String, The custom CSS class name
      *   subTitle: '', // String (optional). The sub-title of the popup.
-     *   template: '', // String (optional). The html template to place in the popup body.
-     *   templateUrl: '', // String (optional). The URL of an html template to place in the popup   body.
+     *   layout: '', // String (optional). The html layout to place in the popup body.
+     *   templateUrl: '', // String (optional). The URL of an html layout to place in the popup   body.
      *   cancelText: '', // String (default: 'Cancel'). The text of the Cancel button.
      *   cancelType: '', // String (default: 'button-default'). The type of the Cancel button.
      *   okText: '', // String (default: 'OK'). The text of the OK button.
@@ -49281,7 +49281,7 @@ function($ionicTemplateLoader, $ionicBackdrop, $q, $timeout, $rootScope, $ionicB
      * ```javascript
      *  $ionicPopup.prompt({
      *    title: 'Password Check',
-     *    template: 'Enter your secret password',
+     *    layout: 'Enter your secret password',
      *    inputType: 'password',
      *    inputPlaceholder: 'Your password'
      *  }).then(function(res) {
@@ -49295,8 +49295,8 @@ function($ionicTemplateLoader, $ionicBackdrop, $q, $timeout, $rootScope, $ionicB
      *   title: '', // String. The title of the popup.
      *   cssClass: '', // String, The custom CSS class name
      *   subTitle: '', // String (optional). The sub-title of the popup.
-     *   template: '', // String (optional). The html template to place in the popup body.
-     *   templateUrl: '', // String (optional). The URL of an html template to place in the popup   body.
+     *   layout: '', // String (optional). The html layout to place in the popup body.
+     *   templateUrl: '', // String (optional). The URL of an html layout to place in the popup   body.
      *   inputType: // String (default: 'text'). The type of input to use
      *   inputPlaceholder: // String (default: ''). A placeholder to use for the input.
      *   cancelText: // String (default: 'Cancel'. The text of the Cancel button.
@@ -50096,7 +50096,7 @@ IonicModule
  * @ngdoc service
  * @name $ionicTemplateCache
  * @module ionic
- * @description A service that preemptively caches template files to eliminate transition flicker and boost performance.
+ * @description A service that preemptively caches layout files to eliminate transition flicker and boost performance.
  * @usage
  * State templates are cached automatically, but you can optionally cache other templates.
  *
@@ -50111,7 +50111,7 @@ IonicModule
  *   angular.module('myApp', ['ionic'])
  *   .config(function($stateProvider, $ionicConfigProvider) {
  *
- *     // disable preemptive template caching globally
+ *     // disable preemptive layout caching globally
  *     $ionicConfigProvider.templates.prefetch(false);
  *
  *     // disable individual states
@@ -50255,7 +50255,7 @@ function($compile, $controller, $http, $q, $rootScope, $templateCache) {
       var controller;
       var scope = options.scope || $rootScope.$new();
 
-      //Incase template doesn't have just one root element, do this
+      //Incase layout doesn't have just one root element, do this
       var element = jqLite('<div>').html(template).contents();
 
       if (options.controller) {
@@ -50402,7 +50402,7 @@ function($timeout, $document, $q, $ionicClickBlock, $ionicConfig, $ionicNavBarDe
 
           if (!alreadyInDom) {
             // still no existing element to use
-            // create it using existing template/scope/locals
+            // create it using existing layout/scope/locals
             enteringEle = registerData.ele || ionicViewSwitcher.createViewEle(viewLocals);
 
             // existing elements in the DOM are looked up by their state name and state id
@@ -57032,7 +57032,7 @@ IonicModule
  *   <ion-nav-bar class="bar-positive">
  *   </ion-nav-bar>
  *
- *   <!-- where the initial view template will be rendered -->
+ *   <!-- where the initial view layout will be rendered -->
  *   <ion-nav-view>
  *     <ion-view>
  *       <ion-content>Hello!</ion-content>
@@ -57073,7 +57073,7 @@ IonicModule
  * @description
  * Use nav buttons to set the buttons on your {@link ionic.directive:ionNavBar}
  * from within an {@link ionic.directive:ionView}. This gives each
- * view template the ability to specify which buttons should show in the nav bar,
+ * view layout the ability to specify which buttons should show in the nav bar,
  * overriding any default buttons already placed in the nav bar.
  *
  * Any buttons you declare will be positioned on the navbar's corresponding side. Primary
@@ -57195,7 +57195,7 @@ IonicModule
  * @description
  *
  * The nav title directive replaces an {@link ionic.directive:ionNavBar} title text with
- * custom HTML from within an {@link ionic.directive:ionView} template. This gives each
+ * custom HTML from within an {@link ionic.directive:ionView} layout. This gives each
  * view the ability to specify its own custom title element, such as an image or any HTML,
  * rather than being text-only. Alternatively, text-only titles can be updated using the
  * `view-title` {@link ionic.directive:ionView} attribute.
@@ -57305,11 +57305,11 @@ IonicModule
  * into various "states". Like Angular's core $route service, URLs can be used
  * to control the views. However, the AngularUI Router provides a more powerful
  * state manager in that states are bound to named, nested, and parallel views,
- * allowing more than one template to be rendered on the same page.
+ * allowing more than one layout to be rendered on the same page.
  * Additionally, each state is not required to be bound to a URL, and data can
  * be pushed to each state which allows much flexibility.
  *
- * The ionNavView directive is used to render templates in your application. Each template
+ * The ionNavView directive is used to render templates in your application. Each layout
  * is part of a state. States are usually mapped to a url, and are defined programatically
  * using angular-ui-router (see [their docs](https://github.com/angular-ui/ui-router/wiki),
  * and remember to replace ui-view with ion-nav-view in examples).
@@ -57341,11 +57341,11 @@ IonicModule
  * and then try to load home.html into the `<ion-nav-view>`.
  *
  * Pages are loaded by the URLs given. One simple way to create templates in Angular is to put
- * them directly into your HTML file and use the `<script type="text/ng-template">` syntax.
+ * them directly into your HTML file and use the `<script type="text/ng-layout">` syntax.
  * So here is one way to put home.html into our app:
  *
  * ```html
- * <script id="home" type="text/ng-template">
+ * <script id="home" type="text/ng-layout">
  *   <!-- The title of the ion-view will be shown on the navbar -->
  *   <ion-view view-title="Home">
  *     <ion-content ng-controller="HomeCtrl">
@@ -57356,7 +57356,7 @@ IonicModule
  * </script>
  * ```
  *
- * This is good to do because the template will be cached for very fast loading, instead of
+ * This is good to do because the layout will be cached for very fast loading, instead of
  * having to fetch them from the network.
  *
  * ## Caching
@@ -57401,7 +57401,7 @@ IonicModule
  * $stateProvider.state('myState', {
  *    cache: false,
  *    url : '/myUrl',
- *    templateUrl : 'my-template.html'
+ *    templateUrl : 'my-layout.html'
  * })
  * ```
  *

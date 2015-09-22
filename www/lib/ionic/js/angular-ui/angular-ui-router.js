@@ -577,24 +577,24 @@ function $TemplateFactory(  $http,   $templateCache,   $injector) {
    * @methodOf ui.router.util.$templateFactory
    *
    * @description
-   * Creates a template from a configuration object. 
+   * Creates a layout from a configuration object.
    *
-   * @param {object} config Configuration object for which to load a template. 
+   * @param {object} config Configuration object for which to load a layout.
    * The following properties are search in the specified order, and the first one 
-   * that is defined is used to create the template:
+   * that is defined is used to create the layout:
    *
-   * @param {string|object} config.template html string template or function to 
+   * @param {string|object} config.layout html string layout or function to
    * load via {@link ui.router.util.$templateFactory#fromString fromString}.
    * @param {string|object} config.templateUrl url to load or a function returning 
    * the url to load via {@link ui.router.util.$templateFactory#fromUrl fromUrl}.
    * @param {Function} config.templateProvider function to invoke via 
    * {@link ui.router.util.$templateFactory#fromProvider fromProvider}.
-   * @param {object} params  Parameters to pass to the template function.
-   * @param {object} locals Locals to pass to `invoke` if the template is loaded 
+   * @param {object} params  Parameters to pass to the layout function.
+   * @param {object} locals Locals to pass to `invoke` if the layout is loaded
    * via a `templateProvider`. Defaults to `{ params: params }`.
    *
-   * @return {string|object}  The template html as a string, or a promise for 
-   * that string,or `null` if no template is configured.
+   * @return {string|object}  The layout html as a string, or a promise for
+   * that string,or `null` if no layout is configured.
    */
   this.fromConfig = function (config, params, locals) {
     return (
@@ -611,13 +611,13 @@ function $TemplateFactory(  $http,   $templateCache,   $injector) {
    * @methodOf ui.router.util.$templateFactory
    *
    * @description
-   * Creates a template from a string or a function returning a string.
+   * Creates a layout from a string or a function returning a string.
    *
-   * @param {string|object} template html template as a string or function that 
-   * returns an html template as a string.
-   * @param {object} params Parameters to pass to the template function.
+   * @param {string|object} template html layout as a string or function that
+   * returns an html layout as a string.
+   * @param {object} params Parameters to pass to the layout function.
    *
-   * @return {string|object} The template html as a string, or a promise for that 
+   * @return {string|object} The layout html as a string, or a promise for that
    * string.
    */
   this.fromString = function (template, params) {
@@ -630,12 +630,12 @@ function $TemplateFactory(  $http,   $templateCache,   $injector) {
    * @methodOf ui.router.util.$templateFactory
    * 
    * @description
-   * Loads a template from the a URL via `$http` and `$templateCache`.
+   * Loads a layout from the a URL via `$http` and `$templateCache`.
    *
-   * @param {string|Function} url url of the template to load, or a function 
+   * @param {string|Function} url url of the layout to load, or a function
    * that returns a url.
    * @param {Object} params Parameters to pass to the url function.
-   * @return {string|Promise.<string>} The template html as a string, or a promise 
+   * @return {string|Promise.<string>} The layout html as a string, or a promise
    * for that string.
    */
   this.fromUrl = function (url, params) {
@@ -652,13 +652,13 @@ function $TemplateFactory(  $http,   $templateCache,   $injector) {
    * @methodOf ui.router.util.$templateFactory
    *
    * @description
-   * Creates a template by invoking an injectable provider function.
+   * Creates a layout by invoking an injectable provider function.
    *
    * @param {Function} provider Function to invoke via `$injector.invoke`
-   * @param {Object} params Parameters for the template.
+   * @param {Object} params Parameters for the layout.
    * @param {Object} locals Locals to pass to `invoke`. Defaults to 
    * `{ params: params }`.
-   * @return {string|Promise.<string>} The template html as a string, or a promise 
+   * @return {string|Promise.<string>} The layout html as a string, or a promise
    * for that string.
    */
   this.fromProvider = function (provider, params, locals) {
@@ -2080,7 +2080,7 @@ function $UrlRouterProvider(   $locationProvider,   $urlMatcherFactory) {
        * // $bob == "/about/bob";
        * </pre>
        *
-       * @param {UrlMatcher} urlMatcher The `UrlMatcher` object which is used as the template of the URL to generate.
+       * @param {UrlMatcher} urlMatcher The `UrlMatcher` object which is used as the layout of the URL to generate.
        * @param {object=} params An object of parameter values to fill the matcher's required parameters.
        * @param {object=} options Options object. The options are:
        *
@@ -2131,7 +2131,7 @@ angular.module('ui.router.router').provider('$urlRouter', $UrlRouterProvider);
  * on state.
  *
  * A state corresponds to a "place" in the application in terms of the overall UI and
- * navigation. A state describes (via the controller / template / view properties) what
+ * navigation. A state describes (via the controller / layout / view properties) what
  * the UI looks like and does at that place.
  *
  * States often have things in common, and the primary way of factoring out these
@@ -2413,9 +2413,9 @@ function $StateProvider(   $urlRouterProvider,   $urlMatcherFactory) {
    *   be a super-set of parent's params.
    * - **views** `{object}` - returns a views object where each key is an absolute view 
    *   name (i.e. "viewName@stateName") and each value is the config object 
-   *   (template, controller) for the view. Even when you don't use the views object 
+   *   (layout, controller) for the view. Even when you don't use the views object
    *   explicitly on a state config, one is still created for you internally.
-   *   So by decorating this builder function you have access to decorating template 
+   *   So by decorating this builder function you have access to decorating layout
    *   and controller properties.
    * - **ownParams** `{object}` - returns an array of params that belong to the state, 
    *   not including any params defined by ancestor states.
@@ -2491,29 +2491,29 @@ function $StateProvider(   $urlRouterProvider,   $urlMatcherFactory) {
    * @param {string} name A unique state name, e.g. "home", "about", "contacts".
    * To create a parent/child state use a dot, e.g. "about.sales", "home.newest".
    * @param {object} stateConfig State configuration object.
-   * @param {string|function=} stateConfig.template
-   * <a id='template'></a>
-   *   html template as a string or a function that returns
-   *   an html template as a string which should be used by the uiView directives. This property 
+   * @param {string|function=} stateConfig.layout
+   * <a id='layout'></a>
+   *   html layout as a string or a function that returns
+   *   an html layout as a string which should be used by the uiView directives. This property
    *   takes precedence over templateUrl.
    *   
-   *   If `template` is a function, it will be called with the following parameters:
+   *   If `layout` is a function, it will be called with the following parameters:
    *
    *   - {array.&lt;object&gt;} - state parameters extracted from the current $location.path() by
    *     applying the current state
    *
-   * <pre>template:
-   *   "<h1>inline template definition</h1>" +
+   * <pre>layout:
+   *   "<h1>inline layout definition</h1>" +
    *   "<div ui-view></div>"</pre>
-   * <pre>template: function(params) {
-   *       return "<h1>generated template</h1>"; }</pre>
+   * <pre>layout: function(params) {
+   *       return "<h1>generated layout</h1>"; }</pre>
    * </div>
    *
    * @param {string|function=} stateConfig.templateUrl
    * <a id='templateUrl'></a>
    *
    *   path or function that returns a path to an html
-   *   template that should be used by uiView.
+   *   layout that should be used by uiView.
    *   
    *   If `templateUrl` is a function, it will be called with the following parameters:
    *
@@ -2614,7 +2614,7 @@ function $StateProvider(   $urlRouterProvider,   $urlMatcherFactory) {
    *
    * Examples:
    *
-   * Targets three named `ui-view`s in the parent state's template
+   * Targets three named `ui-view`s in the parent state's layout
    * <pre>views: {
    *     header: {
    *       controller: "headerCtrl",
@@ -2628,7 +2628,7 @@ function $StateProvider(   $urlRouterProvider,   $urlMatcherFactory) {
    *     }
    *   }</pre>
    *
-   * Targets named `ui-view="header"` from grandparent state 'top''s template, and named `ui-view="body" from parent state's template.
+   * Targets named `ui-view="header"` from grandparent state 'top''s layout, and named `ui-view="body" from parent state's layout.
    * <pre>views: {
    *     'header@top': {
    *       controller: "msgHeaderCtrl",
@@ -3273,8 +3273,8 @@ function $StateProvider(   $urlRouterProvider,   $urlMatcherFactory) {
      * $state.is('contact.details.item'); // returns true
      * $state.is(contactDetailItemStateObject); // returns true
      *
-     * // relative name (. and ^), typically from a template
-     * // E.g. from the 'contacts.details' template
+     * // relative name (. and ^), typically from a layout
+     * // E.g. from the 'contacts.details' layout
      * <div ng-class="{highlighted: $state.is('.item')}">Item</div>
      * </pre>
      *
@@ -3319,8 +3319,8 @@ function $StateProvider(   $urlRouterProvider,   $urlMatcherFactory) {
      * $state.includes("contacts.list"); // returns false
      * $state.includes("about"); // returns false
      *
-     * // Using relative names (. and ^), typically from a template
-     * // E.g. from the 'contacts.details' template
+     * // Using relative names (. and ^), typically from a layout
+     * // E.g. from the 'contacts.details' layout
      * <div ng-class="{highlighted: $state.includes('.item')}">Item</div>
      * </pre>
      *
@@ -3451,7 +3451,7 @@ function $StateProvider(   $urlRouterProvider,   $urlMatcherFactory) {
       })];
       if (inherited) promises.push(inherited);
 
-      // Resolve template and dependencies for all views.
+      // Resolve layout and dependencies for all views.
       forEach(state.views, function (view, name) {
         var injectables = (view.resolve && view.resolve !== state.resolve ? view.resolve : {});
         injectables.$template = [ function () {
@@ -3511,7 +3511,7 @@ function $ViewProvider() {
   $get.$inject = ['$rootScope', '$templateFactory'];
   function $get(   $rootScope,   $templateFactory) {
     return {
-      // $view.load('full.viewName', { template: ..., controller: ..., resolve: ..., async: false, params: ... })
+      // $view.load('full.viewName', { layout: ..., controller: ..., resolve: ..., async: false, params: ... })
       /**
        * @ngdoc function
        * @name ui.router.state.$view#load
@@ -3542,7 +3542,7 @@ function $ViewProvider() {
          * Fired once the view **begins loading**, *before* the DOM is rendered.
          *
          * @param {Object} event Event object.
-         * @param {Object} viewConfig The view config properties (template, controller, etc).
+         * @param {Object} viewConfig The view config properties (layout, controller, etc).
          *
          * @example
          *
@@ -3657,12 +3657,12 @@ angular.module('ui.router.state').provider('$uiViewScroll', $ViewScrollProvider)
  * <div ui-view="viewName"></div>
  * </pre>
  *
- * You can only have one unnamed view within any template (or root html). If you are only using a 
+ * You can only have one unnamed view within any layout (or root html). If you are only using a
  * single view and it is unnamed then you can populate it like so:
  * <pre>
  * <div ui-view></div> 
  * $stateProvider.state("home", {
- *   template: "<h1>HELLO!</h1>"
+ *   layout: "<h1>HELLO!</h1>"
  * })
  * </pre>
  * 
@@ -3672,14 +3672,14 @@ angular.module('ui.router.state').provider('$uiViewScroll', $ViewScrollProvider)
  * $stateProvider.state("home", {
  *   views: {
  *     "": {
- *       template: "<h1>HELLO!</h1>"
+ *       layout: "<h1>HELLO!</h1>"
  *     }
  *   }    
  * })
  * </pre>
  * 
  * But typically you'll only use the views property if you name your view or have more than one view 
- * in the same template. There's not really a compelling reason to name a view if its the only one, 
+ * in the same layout. There's not really a compelling reason to name a view if its the only one,
  * but you could if you wanted, like so:
  * <pre>
  * <div ui-view="main"></div>
@@ -3688,7 +3688,7 @@ angular.module('ui.router.state').provider('$uiViewScroll', $ViewScrollProvider)
  * $stateProvider.state("home", {
  *   views: {
  *     "main": {
- *       template: "<h1>HELLO!</h1>"
+ *       layout: "<h1>HELLO!</h1>"
  *     }
  *   }    
  * })
@@ -3705,13 +3705,13 @@ angular.module('ui.router.state').provider('$uiViewScroll', $ViewScrollProvider)
  * $stateProvider.state("home", {
  *   views: {
  *     "": {
- *       template: "<h1>HELLO!</h1>"
+ *       layout: "<h1>HELLO!</h1>"
  *     },
  *     "chart": {
- *       template: "<chart_thing/>"
+ *       layout: "<chart_thing/>"
  *     },
  *     "data": {
- *       template: "<data_thing/>"
+ *       layout: "<data_thing/>"
  *     }
  *   }    
  * })
@@ -3958,7 +3958,7 @@ function stateContext(el) {
  * You can also use relative state paths within ui-sref, just like the relative 
  * paths passed to `$state.go()`. You just need to be aware that the path is relative
  * to the state that the link lives in, in other words the state that loaded the 
- * template containing the link.
+ * layout containing the link.
  *
  * You can specify options to pass to {@link ui.router.state.$state#go $state.go()}
  * using the `ui-sref-opts` attribute. Options are restricted to `location`, `inherit`,
@@ -3966,7 +3966,7 @@ function stateContext(el) {
  *
  * @example
  * Here's an example of how you'd use ui-sref and how it would compile. If you have the 
- * following template:
+ * following layout:
  * <pre>
  * <a ui-sref="home">Home</a> | <a ui-sref="about">About</a> | <a ui-sref="{page: 2}">Next page</a>
  * 
@@ -4096,7 +4096,7 @@ function $StateRefDirective($state, $timeout) {
  * {@link ui.router.state.directive:ui-sref-active-eq ui-sref-active-eq}
  *
  * @example
- * Given the following template:
+ * Given the following layout:
  * <pre>
  * <ul>
  *   <li ui-sref-active="active" class="item">
