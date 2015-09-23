@@ -1,4 +1,4 @@
-angular.module('menu.controllers', [])
+angular.module('app.controllers', [])
 
 .controller('AccountCtrl', function($scope) {
         //TODO

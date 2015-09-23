@@ -1,4 +1,4 @@
-angular.module('menu', ['ionic', 'menu.controllers'])
+angular.module('app', ['ionic', 'app.controllers'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
