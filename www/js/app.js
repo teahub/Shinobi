@@ -1,4 +1,4 @@
-angular.module('app', ['ionic', 'app.controllers'])
+angular.module('menu', ['ionic', 'menu.controllers'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -19,37 +19,53 @@ angular.module('app', ['ionic', 'app.controllers'])
 .config(function($stateProvider, $urlRouterProvider) {
 
       // if none of the above states are matched, use this as the fallback
-      $urlRouterProvider.otherwise('/app/profile');
+      $urlRouterProvider.otherwise('/menu/profile');
 
       $stateProvider
-      .state('app', {
-        url: '/app',
-        abstract: true,
-        templateUrl: 'views/layout/menu.html',
-        controller: 'AppCtrl'
+
+      .state('account', {
+          url: '/account',
+          abstract: true,
+          templateUrl: 'views/layout/account.html',
+          controller: 'AccountCtrl'
+      })
+      .state('account.login', {
+          url: '/login',
+          views : {
+              content: {
+                  templateUrl: 'views/account/login.html'
+              }
+          }
       })
 
-      .state('app.profile', {
+      .state('menu', {
+          url: '/menu',
+          abstract: true,
+          templateUrl: 'views/layout/menu.html',
+          controller: 'MenuCtrl'
+      })
+
+      .state('menu.profile', {
         url:'/profile',
         views : {
-          menuContent:{
-            templateUrl: 'views/app/profile.html'
+          content:{
+            templateUrl: 'views/menu/profile.html'
           }
         }
       })
-      .state('app.config', {
+      .state('menu.config', {
         url:'/config',
         views : {
-          menuContent:{
-            templateUrl: 'views/app/config.html'
+          content:{
+            templateUrl: 'views/menu/config.html'
           }
         }
       })
-      .state('app.teste', {
+      .state('menu.teste', {
         url:'/teste',
         views : {
-          menuContent:{
-            templateUrl: 'views/app/teste.html'
+          content:{
+            templateUrl: 'views/menu/teste.html'
           }
         }
       });

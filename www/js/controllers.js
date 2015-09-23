@@ -1,6 +1,10 @@
-angular.module('app.controllers', [])
+angular.module('menu.controllers', [])
 
-.controller('AppCtrl', function($scope) {
+.controller('AccountCtrl', function($scope) {
+        //TODO
+})
+
+.controller('MenuCtrl', function($scope) {
 
         $scope.config = {
             notifications: {
