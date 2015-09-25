@@ -38,22 +38,30 @@ angular.module('app', ['ionic', 'app.controllers'])
           }
       })
 
-      .state('account.singup', {
-          url: '/singup',
+      .state('account.signup', {
+          url: '/signup',
           views : {
               content: {
-                  templateUrl: 'views/account/singup.html'
+                  templateUrl: 'views/account/signup.html'
               }
           }
       })
-          .state('account.terms', {
-              url: '/terms',
-              views : {
-                  content: {
-                      templateUrl: 'views/account/terms.html'
-                  }
+      .state('account.confirm', {
+          url: '/signup/confirm',
+          views : {
+              content: {
+                  templateUrl: 'views/account/confirm.html'
               }
-          })
+          }
+      })
+      .state('account.terms', {
+          url: '/terms',
+          views : {
+              content: {
+                  templateUrl: 'views/account/terms.html'
+              }
+          }
+      })
 
       .state('menu', {
           url: '/menu',

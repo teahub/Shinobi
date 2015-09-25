@@ -1,16 +1,25 @@
-<ion-view view-title="Login">
+<ion-view hide-nav-bar="true" view-title="Login">
     <ion-content>
+        <div class="text-center padding-top">
+            <img src="../../img/ionic.png">
+        </div>
         <div class="list list-inset">
             <label class="item item-input">
-                <input type="text" placeholder="First Name">
+                <i class="icon ion-person placeholder-icon"></i>
+                <input type="text" ng-model="account.matricula" placeholder="Matrícula">
             </label>
             <label class="item item-input">
-                <input type="text" placeholder="Last Name">
+                <i class="icon ion-locked placeholder-icon"></i>
+                <input type="password" ng-model="account.senha" placeholder="Senha">
             </label>
             <button class="button button-block button-positive">
                Entrar
             </button>
-            <a class="assertive text-center" href="#/account/singup" >Cadastre-se</a>
+            <div class="text-center">
+                <p>ou</p>
+                <a class="button button-outline button-positive" href="#/account/signup" >
+                Cadastre-se
+            </a></div>
         </div>
     </ion-content>
 </ion-view>

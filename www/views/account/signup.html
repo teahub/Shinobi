@@ -1,0 +1,43 @@
+<ion-view view-title="Cadastro">
+    <ion-content>
+        <div class="list list-inset">
+
+            <label class="item item-input">
+                <input type="text" ng-model="account.matricula"
+                       placeholder="Matrícula" disabled>
+            </label>
+            <label class="item item-input item-stacked-label">
+                <input type="text" placeholder="Nome">
+            </label>
+
+            <label class="item item-input">
+                <input type="email" placeholder="E-mail">
+            </label>
+
+            <label class="item item-input item-stacked-label">
+                <input type="password" ng-model="account.senha" placeholder="Senha">
+            </label>
+
+            <label class="item item-input item-stacked-label">
+                <input type="password" placeholder="Confirmar senha">
+            </label>
+
+            <div class="row padding-top">
+                    <label class="toggle toggle-dark">
+                        <input type="checkbox">
+                        <div class="track">
+                            <div class="handle"></div>
+                        </div>
+                    </label>
+                <div class="col padding-left">
+                    Eu aceito os
+                    <a href="#/account/terms">termos de uso</a>
+                </div>
+            </div>
+
+            <a class="button button-block button-positive" href="#/account/signup/confirm">
+                Cadastrar
+            </a>
+        </div>
+    </ion-content>
+</ion-view>
