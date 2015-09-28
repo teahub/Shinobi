@@ -20,23 +20,23 @@
           <h2>Leonardo Freitas</h2>
           <p>200 pontos</p>
         </ion-item>
-        <ion-item class="item-icon-left" menu-close href="#/app/profile">
+        <ion-item class="item-icon-left" menu-close href="#/menu/profile">
           <i class="icon ion-person"></i>
           Perfil
         </ion-item>
-        <ion-item class="item-icon-left" menu-close href="#">
+        <ion-item class="item-icon-left" menu-close href="#/menu/progress">
           <i class="icon ion-arrow-graph-up-right"></i>
           Progresso
         </ion-item>
-        <ion-item class="item-icon-left" menu-close href="#">
+        <ion-item class="item-icon-left" menu-close href="#/menu/simulated">
           <i class="icon ion-clipboard"></i>
           Simulados
         </ion-item>
-        <ion-item class="item-icon-left" menu-close href="#">
+        <ion-item class="item-icon-left" menu-close href="#/menu/ranking">
           <i class="icon ion-trophy"></i>
           Ranking
         </ion-item>
-        <ion-item class="item-icon-left" menu-close href="#/app/config">
+        <ion-item class="item-icon-left" menu-close href="#/menu/config">
           <i class="icon ion-gear-b"></i>
           Configurações
         </ion-item>
@@ -46,5 +46,8 @@
         </ion-item>
       </ion-list>
     </ion-content>
+  </ion-side-menu>
+  <ion-side-menu side="right" is-enabled="layout.menu.right()">
+      <ion-nav-view name="rightMenu"></ion-nav-view>
   </ion-side-menu>
 </ion-side-menus>

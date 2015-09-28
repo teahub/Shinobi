@@ -29,6 +29,7 @@ angular.module('app', ['ionic', 'app.controllers'])
           templateUrl: 'views/layout/account.html',
           controller: 'AccountCtrl'
       })
+
       .state('account.login', {
           url: '/login',
           views : {
@@ -78,6 +79,37 @@ angular.module('app', ['ionic', 'app.controllers'])
           }
         }
       })
+
+       .state('menu.progress', {
+         url:'/progress',
+         views : {
+            content:{
+              templateUrl: 'views/menu/progress.html'
+           }
+         }
+      })
+
+      .state('menu.simulated', {
+         url:'/simulated',
+         views : {
+              content:{
+                 templateUrl: 'views/menu/simulated.html'
+              }
+            }
+          })
+
+      .state('menu.ranking', {
+         url:'/ranking',
+         views : {
+             content:{
+                 templateUrl: 'views/menu/ranking.html'
+             },
+             rightMenu:{
+                 templateUrl: 'views/menu/ranking-filter.html'
+             }
+         }
+      })
+
       .state('menu.config', {
         url:'/config',
         views : {

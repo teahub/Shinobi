@@ -8,7 +8,21 @@ angular.module('app.controllers', [])
         //TODO
 })
 
-.controller('MenuCtrl', function($scope) {
+.controller('MenuCtrl', function($state, $scope) {
+        console.log();
+        $scope.layout = {
+            menu: {
+                right: function() {
+                    switch($state.$current.name) {
+                        case 'menu.ranking':
+                            return true;
+                            break;
+                        default:
+                            return false;
+                    }
+                }
+            }
+        };
 
         $scope.config = {
             notifications: {

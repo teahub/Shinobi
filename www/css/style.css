@@ -1,13 +1,24 @@
 /* Empty. Add your own CSS if you like */
 
-.small{
+.small {
     font-size:1rem;
 }
 
-.medium{
+.medium {
     font-size:1.5rem;
 }
 
-.large{
+.large {
     font-size:2rem;
+}
+
+.border-belt {
+    border-left-style: solid;
+    border-left-width: 0.75rem;
+    border-top-color: #dddddd;
+    border-bottom-color: #dddddd;
+}
+
+ion-header-bar.belt + ion-content {
+    top: 114px;
 }
