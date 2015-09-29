@@ -12,6 +12,10 @@
     font-size:2rem;
 }
 
+.border-bottom {
+    border-bottom-width: thin;
+}
+
 .border-belt {
     border-left-style: solid;
     border-left-width: 0.75rem;
