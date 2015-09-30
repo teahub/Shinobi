@@ -118,11 +118,12 @@ angular.module('app', ['ionic', 'app.controllers'])
           }
         }
       })
-      .state('menu.teste', {
-        url:'/teste',
+
+      .state('menu.help', {
+        url:'/help',
         views : {
           content:{
-            templateUrl: 'views/menu/teste.html'
+            templateUrl: 'views/menu/help.html'
           }
         }
       });

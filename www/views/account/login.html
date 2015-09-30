@@ -1,25 +1,27 @@
 <ion-view hide-nav-bar="true" view-title="Login">
     <ion-content>
         <div class="text-center padding-top">
-            <img src="../../img/ionic.png">
+            <img src="../../img/tea.png">
         </div>
-        <div class="list list-inset">
-            <label class="item item-input">
-                <i class="icon ion-person placeholder-icon"></i>
-                <input type="text" ng-model="account.matricula" placeholder="Matrícula">
-            </label>
-            <label class="item item-input">
-                <i class="icon ion-locked placeholder-icon"></i>
-                <input type="password" ng-model="account.senha" placeholder="Senha">
-            </label>
-            <button class="button button-block button-positive">
-               Entrar
-            </button>
-            <div class="text-center">
-                <p>ou</p>
-                <a class="button button-outline button-positive" href="#/account/signup" >
-                Cadastre-se
-            </a></div>
+        <div class="row responsive-sm">
+            <div class="col padding-horizontal">
+                <label class="item item-input item-floating-label royal-border item-borderless border-bottom">
+                    <span class="input-label royal">Matrícula</span>
+                    <input type="tel" placeholder="Matrícula"
+                           ng-model="account.matricula" />
+                </label>
+                <label class="item item-input item-floating-label royal-border item-borderless border-bottom">
+                    <span class="input-label royal">Senha</span>
+                    <input type="password" placeholder="Senha"
+                           ng-model="account.senha" />
+                </label>
+            </div>
+            <div class="col padding">
+                <button class="button button-block button-royal">
+                    Entrar
+                </button>
+                <div class="text-center"><a class="button button-clear button-royal" href="#/account/signup">ou Cadastre-se</a></div>
+            </div>
         </div>
     </ion-content>
 </ion-view>
