@@ -1,14 +1,14 @@
 <ion-view view-title="Perfil">
     <ion-header-bar class="bar-subheader belt item item-avatar">
         <img src="../../img/ionic.png">
-        <h2>Leonardo Freitas de Souza</h2>
+        <h2>{{me.name}}</h2>
         <p>
-            <span class="item-note row-no-padding">
-                <i class="medium dark ion-settings"></i>
-                <i class="medium dark ion-code-working"></i>
-                <i class="medium dark ion-android-list"></i>
+            <span class="item-note row-no-padding" ng-repeat="dan in me.dans">
+                <i class="medium dark" ng-class="dan=='infra'?'ion-settings':''"></i>
+                <i class="medium dark" ng-class="dan=='adm'?'ion-android-list':''"></i>
+                <i class="medium dark" ng-class="dan=='eng'?'ion-code-working':''"></i>
             </span>
-            200 pontos
+            {{me.score}} pontos
         </p>
     </ion-header-bar>
     <ion-content>

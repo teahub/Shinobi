@@ -9,7 +9,6 @@ angular.module('app.controllers', [])
 })
 
 .controller('MenuCtrl', function($state, $scope) {
-        console.log();
         $scope.layout = {
             menu: {
                 right: function() {
@@ -23,7 +22,6 @@ angular.module('app.controllers', [])
                 }
             }
         };
-
         $scope.config = {
             notifications: {
                 state: false,
@@ -39,5 +37,13 @@ angular.module('app.controllers', [])
             }
         };
         $scope.config.notifications.get();
+
+        // DATA
+
+        $scope.me = {
+            name: 'Anônimo da Silva',
+            score: 1200,
+            dans: ['adm', 'eng', 'infra']
+        }
 
 });
