@@ -1,4 +1,4 @@
-angular.module('app', ['ionic', 'app.controllers'])
+angular.module('app', ['ionic', 'app.controllers', 'ngMessages'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
