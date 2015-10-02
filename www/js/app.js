@@ -89,14 +89,32 @@ angular.module('app', ['ionic', 'app.controllers'])
          }
       })
 
-      .state('menu.simulated', {
-         url:'/simulated',
+      .state('menu.areas', {
+         url:'/areas',
          views : {
-              content:{
-                 templateUrl: 'views/menu/simulated.html'
-              }
+            content:{
+              templateUrl: 'views/menu/areas.html'
+           }
+         }
+      })
+
+      .state('menu.simulated', {
+          url:'/areas/simulated',
+          views : {
+            content:{
+              templateUrl: 'views/menu/simulated.html'
             }
-          })
+         }
+      })
+
+      .state('menu.questions', {
+         url:'/areas/simulated/questions',
+         views : {
+           content:{
+              templateUrl: 'views/menu/questions.html'
+           }
+         }
+      })
 
       .state('menu.ranking', {
          url:'/ranking',
