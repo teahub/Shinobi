@@ -1,15 +1,13 @@
-<ion-view view-title="Cadastro">
+<ion-view view-title="Finalizar Cadastro">
     <ion-content>
-        <div class="list list-inset">
-
+        <form name="signup" class="list list-inset">
             <label class="item item-input">
-                <input type="text" ng-model="account.matricula"
+                <input name="matricula" type="text" ng-model="account.matricula"
                        placeholder="Matrícula">
             </label>
             <label class="item item-input item-stacked-label">
-                <input type="text" placeholder="Nome">
+                <input name="nome" type="text" placeholder="Nome">
             </label>
-
             <label class="item item-input">
                 <input type="email" placeholder="E-mail">
             </label>
@@ -38,6 +36,6 @@
             <a class="button button-block button-positive" href="#/account/signup/confirm">
                 Cadastrar
             </a>
-        </div>
+        </form>
     </ion-content>
 </ion-view>
