@@ -1,11 +1,19 @@
 angular.module('app.controllers', [])
 
-.controller('AccountCtrl', function($scope) {
+.controller('AccountCtrl', function($scope, Student) {
         $scope.account = {
-            matricula: null,
-            senha: null
+            enrollment: null,
+            password: null
         };
-        //TODO
+        $scope.validate = function(){
+            Student.validate($scope.account, function(err, data){
+               if(err){
+                   console.log('Não me venha com churumelas');
+               }else{
+                   console.log(data);
+               }
+            });
+        };
 })
 
 .controller('MenuCtrl', function($state, $scope) {
