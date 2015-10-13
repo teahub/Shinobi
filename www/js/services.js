@@ -1,4 +1,4 @@
-var server = 'http://localhost:1337';
+var server = 'http://localhost:1337'; // 'https://runmile.herokuapp.com';
 
 angular.module('app.services', [])
 

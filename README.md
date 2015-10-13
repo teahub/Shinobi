@@ -1,3 +1,3 @@
-# Shinobi
-Aplicação desenvolvida no TEA.
+# Runmile
+AplicaÃ§Ã£o desenvolvida no TEA.
 Utilizando Ionic Framework.
