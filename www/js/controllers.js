@@ -7,7 +7,8 @@ angular.module('app.controllers', [])
         password: null,
         name: null,
         alias: null,
-        email: null
+        email: null,
+        terms: false
     };
     $scope.validate = function () {
         Student.validate($scope.account, function (response) {

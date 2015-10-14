@@ -1,5 +1,5 @@
 // SAILS.SOCKET.IO CONFIG
-io.sails.url = 'http://localhost:1337'; // 'https://runmile.herokuapp.com';
+io.sails.url = 'http://10.0.221.90:1337'; // 'https://runmile.herokuapp.com';
 io.sails.transports = ['websocket'];
 
 angular.module('app.services', [])

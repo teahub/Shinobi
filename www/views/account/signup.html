@@ -1,24 +1,37 @@
 <ion-view view-title="Finalizar Cadastro">
     <ion-content>
         <form name="signup" class="list list-inset">
-            <label class="item item-input item-stacked-label">
-                <input name="nome" type="text"
+            <label class="item item-input item-floating-label royal-border item-borderless border-bottom">
+                <span class="input-label royal">Nome</span>
+                <input type="text" name="name" placeholder="Nome"
                        ng-model="::account.name"
-                       placeholder="Nome Completo" disabled>
+                       required disabled />
             </label>
-            <label class="item item-input item-stacked-label">
-                <input name="alias" type="text"
+            <label ng-messages="signup.name.$dirty && signup.name.$error" class="assertive" role="alert">
+                <small ng-message="required">Campo Obrigatorio</small>
+            </label>
+            <label class="item item-input item-floating-label royal-border item-borderless border-bottom">
+                <span class="input-label royal">Apelido</span>
+                <input type="text" name="alias" placeholder="Apelido"
                        ng-model="account.alias"
-                       placeholder="Apelido">
+                       required />
             </label>
-            <label class="item item-input">
-                <input type="email"
+            <label ng-messages="signup.alias.$dirty && signup.alias.$error" class="assertive" role="alert">
+                <small ng-message="required">Campo Obrigatorio</small>
+            </label>
+            <label class="item item-input item-floating-label royal-border item-borderless border-bottom">
+                <span class="input-label royal">E-mail</span>
+                <input type="email" name="email" placeholder="E-mail"
                        ng-model="account.email"
-                       placeholder="E-mail">
+                       required />
+            </label>
+            <label ng-messages="signup.email.$dirty && signup.email.$error" class="assertive" role="alert">
+                <small ng-message="required">Campo Obrigatorio</small>
+                <small ng-message="email">E-mail Inválido</small>
             </label>
             <div class="row padding-top">
                     <label class="toggle toggle-dark">
-                        <input type="checkbox">
+                        <input name="terms" type="checkbox" ng-model="account.terms">
                         <div class="track">
                             <div class="handle"></div>
                         </div>
@@ -29,8 +42,10 @@
                 </div>
             </div>
 
-            <a class="button button-block button-positive" href="#/account/signup/confirm">
-                Cadastrar
+            <a class="button button-block button-royal"
+               ng-class="{ 'disabled' : !connection.active || signup.$invalid || !account.terms }"
+               ng-click="validate()">
+                {{connection.active ? 'Cadastrar' : 'Conectando...'}}
             </a>
         </form>
     </ion-content>
