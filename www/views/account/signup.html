@@ -1,25 +1,21 @@
 <ion-view view-title="Finalizar Cadastro">
     <ion-content>
         <form name="signup" class="list list-inset">
+            <label class="item item-input item-stacked-label">
+                <input name="nome" type="text"
+                       ng-model="::account.name"
+                       placeholder="Nome Completo" disabled>
+            </label>
+            <label class="item item-input item-stacked-label">
+                <input name="alias" type="text"
+                       ng-model="account.alias"
+                       placeholder="Apelido">
+            </label>
             <label class="item item-input">
-                <input name="matricula" type="text" ng-model="account.matricula"
-                       placeholder="Matrícula">
+                <input type="email"
+                       ng-model="account.email"
+                       placeholder="E-mail">
             </label>
-            <label class="item item-input item-stacked-label">
-                <input name="nome" type="text" placeholder="Nome">
-            </label>
-            <label class="item item-input">
-                <input type="email" placeholder="E-mail">
-            </label>
-
-            <label class="item item-input item-stacked-label">
-                <input type="password" ng-model="account.senha" placeholder="Senha">
-            </label>
-
-            <label class="item item-input item-stacked-label">
-                <input type="password" placeholder="Confirmar senha">
-            </label>
-
             <div class="row padding-top">
                     <label class="toggle toggle-dark">
                         <input type="checkbox">

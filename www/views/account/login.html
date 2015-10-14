@@ -1,11 +1,12 @@
 <ion-view hide-nav-bar="true" view-title="Login">
     <ion-content>
-        <div class="text-center padding-top">
-            <!--TODO-->
-            <img src="./img/runmile.png" class="full-image">
+        <div class="row responsive-sm padding">
+            <div class="col col-33 col-offset-33 text-center padding">
+                <img src="./img/runmile.png" class="full-image">
+            </div>
         </div>
         <div class="row responsive-sm">
-            <div class="col padding-horizontal">
+            <div class="col col-50 col-offset-25 padding-horizontal">
                 <label class="item item-input item-floating-label royal-border item-borderless border-bottom">
                     <span class="input-label royal">Matrícula</span>
                     <input type="tel" placeholder="Matrícula"
@@ -17,12 +18,16 @@
                            ng-model="account.password" />
                 </label>
             </div>
-            <div class="col padding">
-                <button class="button button-block button-royal" ng-click="validate()">
-                    Entrar
-                </button>
-                <div class="text-center"><a class="button button-clear button-royal" href="#/account/signup">ou Cadastre-se</a></div>
+        </div>
+        <div class="row responsive-sm">
+            <div class="col col-50 col-offset-25 padding">
+                <a class="button button-block button-royal"
+                   ng-class="{ 'disabled' : !connection.active }"
+                   ng-click="validate()">
+                    {{connection.active ? 'Entrar' : 'Conectando...'}}
+                </a>
             </div>
         </div>
+
     </ion-content>
 </ion-view>
