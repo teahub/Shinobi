@@ -1,6 +1,8 @@
 // SAILS.SOCKET.IO CONFIG
-io.sails.url = 'http://10.0.221.90:1337'; // 'https://runmile.herokuapp.com';
-io.sails.transports = ['websocket'];
+io.sails.url = 'http://localhost:1337';
+//io.sails.url = 'http://runmile.ml:80';
+//io.sails.url = 'https://runmile.herokuapp.com:80';
+io.sails.transports = ['websocket']; //['polling', 'websocket'];
 
 angular.module('app.services', [])
 
@@ -68,20 +70,11 @@ angular.module('app.services', [])
             }, function(response){
                 callback(response);
             });
-            //$http({
-            //    method: 'GET',
-            //    url: io.sails.url + '/student/validate',
-            //    headers: {
-            //        enrollment: account.enrollment,
-            //        password: account.password
-            //    }
-            //}).success(function(data, status){
-            //    result.data = data;
-            //}).catch(function(err){
-            //    result.err = err;
-            //}).finally(function(){
-            //    callback(result.err, result.data);
-            //});
+        },
+        create: function(account, callback){
+            io.socket.post('/student', account, function(result){
+                callback(result);
+            })
         }
     };
 });

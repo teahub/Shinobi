@@ -19,6 +19,7 @@ angular.module('app.controllers', [])
                     $state.go('account.signup');
                     break;
                 case 401:
+                    alert('Usuário ou senha incorretos');
                     console.log('Usuário ou senha incorretos');
                     break;
                 case 503:
@@ -26,6 +27,21 @@ angular.module('app.controllers', [])
                     break;
                 default:
                     console.log('Ocorreu um erro desconhecido, estou tão surpreso quanto você, juro.');
+            }
+        });
+    };
+    $scope.register = function () {
+        Student.create($scope.account, function(response) {
+            switch (response.status) {
+                case 200:
+                    alert('Cadastro realizado com sucesso!');
+                    $state.go('menu.profile', {data: response.data});
+                    break;
+                case 400:
+                    console.dir(response.invalidAttributes);
+                    break;
+                default:
+                    console.dir(response);
             }
         });
     };

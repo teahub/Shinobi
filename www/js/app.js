@@ -17,68 +17,56 @@ angular.module('app', ['ionic', 'app.services', 'app.controllers', 'ngMessages']
 })
 
 .config(function($stateProvider, $urlRouterProvider) {
+    // if none of the above states are matched, use this as the fallback
+    $urlRouterProvider.otherwise('/menu/profile');
 
-      // if none of the above states are matched, use this as the fallback
-      $urlRouterProvider.otherwise('/menu/profile');
+    $stateProvider
 
-      $stateProvider
+    .state('account', {
+        url: '/account',
+        abstract: true,
+        templateUrl: 'views/layout/account.html',
+        controller: 'AccountCtrl'
+    })
+    .state('account.login', {
+        url: '/login',
+        views : {
+            content: {
+                templateUrl: 'views/account/login.html'
+            }
+        }
+    })
+    .state('account.signup', {
+        url: '/signup',
+        views : {
+            content: {
+                templateUrl: 'views/account/signup.html'
+            }
+        }
+    })
+    .state('account.terms', {
+        url: '/terms',
+        views : {
+            content: {
+                templateUrl: 'views/account/terms.html'
+            }
+        }
+    })
 
-      .state('account', {
-          url: '/account',
-          abstract: true,
-          templateUrl: 'views/layout/account.html',
-          controller: 'AccountCtrl'
-      })
-
-      .state('account.login', {
-          url: '/login',
-          views : {
-              content: {
-                  templateUrl: 'views/account/login.html'
-              }
-          }
-      })
-
-      .state('account.signup', {
-          url: '/signup',
-          views : {
-              content: {
-                  templateUrl: 'views/account/signup.html'
-              }
-          }
-      })
-      .state('account.confirm', {
-          url: '/signup/confirm',
-          views : {
-              content: {
-                  templateUrl: 'views/account/confirm.html'
-              }
-          }
-      })
-      .state('account.terms', {
-          url: '/terms',
-          views : {
-              content: {
-                  templateUrl: 'views/account/terms.html'
-              }
-          }
-      })
-
-      .state('menu', {
-          url: '/menu',
-          abstract: true,
-          templateUrl: 'views/layout/menu.html',
-          controller: 'MenuCtrl'
-      })
-
-      .state('menu.profile', {
+    .state('menu', {
+        url: '/menu',
+        abstract: true,
+        templateUrl: 'views/layout/menu.html',
+        controller: 'MenuCtrl'
+    })
+    .state('menu.profile', {
         url:'/profile',
         views : {
-          content:{
-            templateUrl: 'views/menu/profile.html'
-          }
+            content: {
+                templateUrl: 'views/menu/profile.html'
+            }
         }
-      })
+    })
 
        .state('menu.progress', {
          url:'/progress',

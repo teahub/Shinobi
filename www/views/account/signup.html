@@ -1,52 +1,56 @@
 <ion-view view-title="Finalizar Cadastro">
     <ion-content>
-        <form name="signup" class="list list-inset">
-            <label class="item item-input item-floating-label royal-border item-borderless border-bottom">
-                <span class="input-label royal">Nome</span>
-                <input type="text" name="name" placeholder="Nome"
-                       ng-model="::account.name"
-                       required disabled />
-            </label>
-            <label ng-messages="signup.name.$dirty && signup.name.$error" class="assertive" role="alert">
-                <small ng-message="required">Campo Obrigatorio</small>
-            </label>
-            <label class="item item-input item-floating-label royal-border item-borderless border-bottom">
-                <span class="input-label royal">Apelido</span>
-                <input type="text" name="alias" placeholder="Apelido"
-                       ng-model="account.alias"
-                       required />
-            </label>
-            <label ng-messages="signup.alias.$dirty && signup.alias.$error" class="assertive" role="alert">
-                <small ng-message="required">Campo Obrigatorio</small>
-            </label>
-            <label class="item item-input item-floating-label royal-border item-borderless border-bottom">
-                <span class="input-label royal">E-mail</span>
-                <input type="email" name="email" placeholder="E-mail"
-                       ng-model="account.email"
-                       required />
-            </label>
-            <label ng-messages="signup.email.$dirty && signup.email.$error" class="assertive" role="alert">
-                <small ng-message="required">Campo Obrigatorio</small>
-                <small ng-message="email">E-mail Inválido</small>
-            </label>
-            <div class="row padding-top">
-                    <label class="toggle toggle-dark">
+        <div class="row responsive-sm padding">
+            <form name="signup" class="col col-50 col-offset-25 ">
+                <label class="item item-input item-floating-label royal-border item-borderless border-bottom">
+                    <span class="input-label royal">Nome</span>
+                    <input type="text" name="name" placeholder="Nome"
+                           ng-model="::account.name"
+                           required disabled />
+                </label>
+                <label ng-messages="signup.name.$dirty && signup.name.$error" class="assertive" role="alert">
+                    <small ng-message="required">Campo Obrigatorio</small>
+                </label>
+                <label class="item item-input item-floating-label royal-border item-borderless border-bottom">
+                    <span class="input-label royal">Apelido</span>
+                    <input type="text" name="alias" placeholder="Apelido"
+                           ng-model="account.alias"
+                           required />
+                </label>
+                <label ng-messages="signup.alias.$dirty && signup.alias.$error" class="assertive" role="alert">
+                    <small ng-message="required">Campo Obrigatorio</small>
+                </label>
+                <label class="item item-input item-floating-label royal-border item-borderless border-bottom">
+                    <span class="input-label royal">E-mail</span>
+                    <input type="email" name="email" placeholder="E-mail"
+                           ng-model="account.email"
+                           required />
+                </label>
+                <label ng-messages="signup.email.$dirty && signup.email.$error" class="assertive" role="alert">
+                    <small ng-message="required">Campo Obrigatorio</small>
+                    <small ng-message="email">E-mail Inválido</small>
+                </label>
+                <div class="row padding-top">
+                    <label class="toggle toggle-balanced">
                         <input name="terms" type="checkbox" ng-model="account.terms">
                         <div class="track">
                             <div class="handle"></div>
                         </div>
                     </label>
-                <div class="col padding-left">
-                    Eu aceito os
-                    <a href="#/account/terms">termos de uso</a>
+                    <div class="col padding-left">
+                        <p>
+                            Eu aceito os <a href="#/account/terms" class="royal">termos de uso</a>.
+                        </p>
+                    </div>
                 </div>
-            </div>
-
-            <a class="button button-block button-royal"
-               ng-class="{ 'disabled' : !connection.active || signup.$invalid || !account.terms }"
-               ng-click="validate()">
-                {{connection.active ? 'Cadastrar' : 'Conectando...'}}
-            </a>
-        </form>
+                <div class="padding-top backspace">
+                    <a class="button button-block button-royal"
+                       ng-class="{ 'disabled' : !connection.active || signup.$invalid || !account.terms }"
+                       ng-click="register()">
+                        {{connection.active ? 'Cadastrar' : 'Conectando...'}}
+                    </a>
+                </div>
+            </form>
+        </div>
     </ion-content>
 </ion-view>
