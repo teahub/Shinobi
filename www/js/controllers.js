@@ -11,11 +11,10 @@ angular.module('app.controllers', [])
         terms: false
     };
     $scope.validate = function () {
-        Student.validate($scope.account, function (response) {
-            switch (response.status) {
+        Student.validate($scope.account, function (data, res) {
+            switch (res.statusCode) {
                 case 200:
-                    console.log(response);
-                    $scope.account.name = response.data.name;
+                    $scope.account.name = data.name;
                     $state.go('account.signup');
                     break;
                 case 401:
@@ -31,17 +30,18 @@ angular.module('app.controllers', [])
         });
     };
     $scope.register = function () {
-        Student.create($scope.account, function(response) {
-            switch (response.status) {
+        Student.create($scope.account, function(data, res) {
+            switch (res.statusCode) {
                 case 200:
                     alert('Cadastro realizado com sucesso!');
-                    $state.go('menu.profile', {data: response.data});
+                    $state.go('menu.profile', {});
                     break;
                 case 400:
-                    console.dir(response.invalidAttributes);
+                    console.dir(data.invalidAttributes);
+                    console.dir(data);
                     break;
                 default:
-                    console.dir(response);
+                    console.dir(data);
             }
         });
     };
